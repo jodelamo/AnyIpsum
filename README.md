@@ -1,10 +1,12 @@
 # AnyIpsum
 
+![Screenshot of AnyIpsum in action](screenshot.png)
+
 OS X status bar application that lets you select a
 [lorem ipsum](https://en.wikipedia.org/wiki/Lorem_ipsum) variation and copy it
 to the pasteboard.
 
-![Screenshot of AnyIpsum in action](screenshot.png)
+Please fork and improve. This was done as a learning experience with Swift.
 
 ## Usage
 
