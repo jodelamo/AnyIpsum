@@ -11,8 +11,7 @@ Please fork and improve. This was done as a learning experience with Swift.
 ## Usage
 
 Ipsum variations are stored in `Ipsum.plist`, and will be read upon application
-launch. Future improvements might include randomized paragraphs or sentences
-made up from a set of words.
+launch.
 
 ## License
 
