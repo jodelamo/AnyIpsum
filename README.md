@@ -6,7 +6,7 @@ OS X status bar application that lets you select a
 [lorem ipsum](https://en.wikipedia.org/wiki/Lorem_ipsum) variation and copy it
 to the pasteboard.
 
-Please fork and improve. This was done as a learning experience with Swift.
+Feel free to fork and improve.
 
 ## Usage
 
