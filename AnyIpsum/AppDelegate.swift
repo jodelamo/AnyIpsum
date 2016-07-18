@@ -54,9 +54,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Functions
     
     func createParagraph(text: String) -> String {
-        var paragraph = "";
+        let MaxSentences: UInt32 = 7
+        let MinSentences: UInt32 = 5
+        var paragraph = ""
         
-        let sentenceCount = Int(arc4random_uniform(10) + 5)
+        let sentenceCount = Int(arc4random_uniform(MaxSentences) + MinSentences)
         
         for _ in 0...sentenceCount {
             paragraph += self.createSentence(text)
@@ -67,8 +69,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func createSentence(text: String) -> String {
+        let MaxWords: UInt32 = 8
+        let MinWords: UInt32 = 5
         let words = text.words
-        let wordCount = Int(arc4random_uniform(10) + 5)
+        let wordCount = Int(arc4random_uniform(MaxWords) + MinWords)
         var sentence = ""
         
         for _ in 0...wordCount {
