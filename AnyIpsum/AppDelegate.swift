@@ -50,7 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
-    it
+
     // MARK: - Functions
     
     func createParagraph(text: String) -> String {
