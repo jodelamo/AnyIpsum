@@ -14,7 +14,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var menuBar: NSMenu!
     
-    let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
+    let statusItem = NSStatusBar
+        .systemStatusBar()
+        .statusItemWithLength(NSVariableStatusItemLength)
     
     // MARK: - Initialization
     
@@ -35,7 +37,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     let menuItem = AIMenuItem(
                         title: name as! String,
                         actionClosure: {
-                            self.process(text as! String)
+                            let paragraph = self.createParagraph(text as! String)
+                            self.writeToPasteboard(paragraph)
                         },
                         keyEquivalent: "\(ipsumTexts.count - index)"
                     )
@@ -47,23 +50,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
-    
+    it
     // MARK: - Functions
     
-    func process(text: String) {
+    func createParagraph(text: String) -> String {
+        var paragraph = "";
+        
+        let sentenceCount = Int(arc4random_uniform(10) + 5)
+        
+        for _ in 0...sentenceCount {
+            paragraph += self.createSentence(text)
+        }
+        
+        return paragraph
+            .stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    }
+    
+    func createSentence(text: String) -> String {
         let words = text.words
-        let wordCount = Int(arc4random_uniform(150) + 100)
-        var paragraph = ""
+        let wordCount = Int(arc4random_uniform(10) + 5)
+        var sentence = ""
         
         for _ in 0...wordCount {
             let randomWordIndex = Int(arc4random_uniform(UInt32(words.count)))
-            paragraph += "\(words[randomWordIndex]) "
+            sentence += "\(words[randomWordIndex]) "
         }
         
-        paragraph = paragraph.lowercaseString
-        
-        // End result
-        self.writeToPasteboard(paragraph)
+        return sentence
+            .condenseWhitespace()
+            .lowercaseString
+            .capitalizeFirstLetter() + ". "
     }
     
     func writeToPasteboard(text: String) {

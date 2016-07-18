@@ -17,17 +17,4 @@ extension String {
                 .filter { !$0.isEmpty }
         }
     }
-    
-    func condenseWhitespace() -> String {
-        let components = componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        return components
-            .filter { !$0.isEmpty }
-            .joinWithSeparator(" ")
-    }
-    
-    func capitalizingFirstLetter() -> String {
-        let first = String(characters.prefix(1)).capitalizedString
-        let other = String(characters.dropFirst())
-        return first + other
-    }
 }
