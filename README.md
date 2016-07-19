@@ -8,6 +8,17 @@ to the pasteboard.
 
 Feel free to fork and improve.
 
+## Install
+
+Download the latest disk image from
+[here](https://github.com/jlowgren/AnyIpsum/releases/tag/v0.1.2),
+or, using [Homebrew-Cask](https://github.com/caskroom/homebrew-cask):
+
+
+```sh
+brew cask install anyipsum
+```
+
 ## Usage
 
 Ipsum variations are stored in `Ipsum.plist`, and will be read upon application
