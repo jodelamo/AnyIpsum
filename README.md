@@ -6,6 +6,9 @@ OS X status bar application that lets you select a
 [lorem ipsum](https://en.wikipedia.org/wiki/Lorem_ipsum) variation and copy it
 to the pasteboard.
 
+Ipsum variations are stored in `Ipsum.plist`, and will be read upon application
+launch.
+
 Feel free to fork and improve.
 
 ## Install
@@ -21,8 +24,8 @@ brew cask install anyipsum
 
 ## Usage
 
-Ipsum variations are stored in `Ipsum.plist`, and will be read upon application
-launch.
+Click the menu bar icon and pick an ipsum variation. A paragraph will be copied
+to the pasteboard.
 
 Example output:
 
