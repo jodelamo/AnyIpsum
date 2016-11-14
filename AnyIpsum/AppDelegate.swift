@@ -15,21 +15,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var menuBar: NSMenu!
     
     let statusItem = NSStatusBar
-        .systemStatusBar()
-        .statusItemWithLength(NSVariableStatusItemLength)
+        .system()
+        .statusItem(withLength: NSVariableStatusItemLength)
     
     // MARK: - Initialization
     
-    func applicationDidFinishLaunching(notification: NSNotification) {
+    func applicationDidFinishLaunching(_ notification: Notification) {
         // Create menu icon and handle inverted appearance
         let menuIcon = NSImage(named: "MenuIcon")
-        menuIcon!.template = true
+        menuIcon!.isTemplate = true
         
         statusItem.image = menuIcon
         statusItem.menu = menuBar
         
         // Read list of ipsum variants and add as menu items
-        if let path = NSBundle.mainBundle().pathForResource("Ipsum", ofType: "plist") {
+        if let path = Bundle.main.path(forResource: "Ipsum", ofType: "plist") {
             if let ipsumTexts = NSDictionary(contentsOfFile: path) {
                 var index = 0
                 
@@ -43,7 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         keyEquivalent: "\(ipsumTexts.count - index)"
                     )
                     
-                    menuBar.insertItem(menuItem, atIndex: 0)
+                    menuBar.insertItem(menuItem, at: 0)
                     
                     index += 1
                 }
@@ -53,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Functions
     
-    func createParagraph(text: String) -> String {
+    func createParagraph(_ text: String) -> String {
         let MaxSentences: UInt32 = 7
         let MinSentences: UInt32 = 5
         var paragraph = ""
@@ -65,10 +65,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         return paragraph
-            .stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
     
-    func createSentence(text: String) -> String {
+    func createSentence(_ text: String) -> String {
         let MaxWords: UInt32 = 8
         let MinWords: UInt32 = 5
         let words = text.words
@@ -81,20 +81,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         return sentence
-            .condenseWhitespace()
-            .lowercaseString
+            .condenseWhitespace().lowercased()
             .capitalizeFirstLetter() + ". "
     }
     
-    func writeToPasteboard(text: String) {
-        let pasteboard = NSPasteboard.generalPasteboard()
+    func writeToPasteboard(_ text: String) {
+        let pasteboard = NSPasteboard.general()
         pasteboard.clearContents()
         pasteboard.setString(text, forType: NSPasteboardTypeString)
     }
     
     // MARK: - Actions
 
-    @IBAction func quit(sender: NSMenuItem) {
-        NSApplication.sharedApplication().terminate(self)
+    @IBAction func quit(_ sender: NSMenuItem) {
+        NSApplication.shared().terminate(self)
     }
 }

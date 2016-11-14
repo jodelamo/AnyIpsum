@@ -99,7 +99,6 @@
 				462FA57B1D30C1AF0099FD9E /* Sources */,
 				462FA57C1D30C1AF0099FD9E /* Frameworks */,
 				462FA57D1D30C1AF0099FD9E /* Resources */,
-				46CF04921D3D080D001FA70A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -122,6 +121,7 @@
 				TargetAttributes = {
 					462FA57E1D30C1AF0099FD9E = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -155,22 +155,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		46CF04921D3D080D001FA70A /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "command -v appdmg > /dev/null\n\nif [ $? -ne 0 ]; then\n    echo \"Creating the disk image requires appdmg:\"\n    echo \"npm install -g appdmg\"\n    exit 1\nfi\n\ndiskimage=${SRCROOT}/${EXECUTABLE_NAME}.dmg\n\nif [ $CONFIGURATION == \"Release\" ]; then\n    appdmg ${SRCROOT}/appdmg.json ${diskimage}\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		462FA57B1D30C1AF0099FD9E /* Sources */ = {
@@ -290,6 +274,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jorum.AnyIpsum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -302,6 +287,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jorum.AnyIpsum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

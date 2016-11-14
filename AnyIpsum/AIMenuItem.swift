@@ -11,17 +11,17 @@ import Cocoa
 class AIMenuItem: NSMenuItem {
     var actionClosure: () -> ()
     
-    init(title: String, actionClosure: () -> (), keyEquivalent: String) {
+    init(title: String, actionClosure: @escaping () -> (), keyEquivalent: String) {
         self.actionClosure = actionClosure
         super.init(title: title, action: #selector(AIMenuItem.action(_:)), keyEquivalent: keyEquivalent)
         self.target = self
     }
     
-    func action(sender: NSMenuItem) {
-        self.actionClosure()
+    required init(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func action(_ sender: NSMenuItem) {
+        self.actionClosure()
     }
 }

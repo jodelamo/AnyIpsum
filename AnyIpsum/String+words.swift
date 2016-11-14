@@ -11,9 +11,9 @@ import Foundation
 extension String {
     var words: [String] {
         get {
-            return componentsSeparatedByCharactersInSet(.punctuationCharacterSet())
-                .joinWithSeparator("")
-                .componentsSeparatedByString(" ")
+            return components(separatedBy: .punctuationCharacters)
+                .joined(separator: "")
+                .components(separatedBy: " ")
                 .filter { !$0.isEmpty }
         }
     }

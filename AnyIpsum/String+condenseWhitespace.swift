@@ -10,9 +10,9 @@ import Foundation
 
 extension String {
     func condenseWhitespace() -> String {
-        let components = componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let components = self.components(separatedBy: CharacterSet.whitespacesAndNewlines)
         return components
             .filter { !$0.isEmpty }
-            .joinWithSeparator(" ")
+            .joined(separator: " ")
     }
 }
