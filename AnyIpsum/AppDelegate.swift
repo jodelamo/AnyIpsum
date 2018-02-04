@@ -24,65 +24,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Create menu icon and handle inverted appearance
         let menuIcon = NSImage(named: NSImage.Name(rawValue: "MenuIcon"))
         menuIcon!.isTemplate = true
-        
         statusItem.image = menuIcon
         statusItem.menu = menuBar
         
+        // Path to list of ipsum variations
+        guard let path = Bundle.main.path(forResource: "Ipsum", ofType: "plist") else {
+            return
+        }
+        
+        // Dictionary of ipsum variations
+        guard let ipsumTexts = NSDictionary(contentsOfFile: path) else {
+            return
+        }
+        
         // Read list of ipsum variants and add as menu items
-        if let path = Bundle.main.path(forResource: "Ipsum", ofType: "plist") {
-            if let ipsumTexts = NSDictionary(contentsOfFile: path) {
-                var index = 0
-                
-                for (name, text) in ipsumTexts {
-                    let menuItem = AIMenuItem(
-                        title: name as! String,
-                        actionClosure: {
-                            let paragraph = self.createParagraph(text as! String)
-                            self.writeToPasteboard(paragraph)
-                        },
-                        keyEquivalent: "\(ipsumTexts.count - index)"
-                    )
-                    
-                    menuBar.insertItem(menuItem, at: 0)
-                    
-                    index += 1
-                }
-            }
+        var index = 0
+        
+        // Build paragraph
+        for (name, words) in ipsumTexts {
+            let menuItem = AIMenuItem(
+                title: name as! String,
+                actionClosure: {
+                    let p = AIParagraph(words as! String)
+                    self.writeToPasteboard(p.paragraph)
+                },
+                keyEquivalent: "\(ipsumTexts.count - index)"
+            )
+            
+            menuBar.insertItem(menuItem, at: 0)
+            
+            index += 1
         }
-    }
-
-    // MARK: - Functions
-    
-    func createParagraph(_ text: String) -> String {
-        let MaxSentences: UInt32 = 7
-        let MinSentences: UInt32 = 5
-        var paragraph = ""
-        
-        let sentenceCount = Int(arc4random_uniform(MaxSentences) + MinSentences)
-        
-        for _ in 0...sentenceCount {
-            paragraph += self.createSentence(text)
-        }
-        
-        return paragraph
-            .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-    }
-    
-    func createSentence(_ text: String) -> String {
-        let MaxWords: UInt32 = 8
-        let MinWords: UInt32 = 5
-        let words = text.words
-        let wordCount = Int(arc4random_uniform(MaxWords) + MinWords)
-        var sentence = ""
-        
-        for _ in 0...wordCount {
-            let randomWordIndex = Int(arc4random_uniform(UInt32(words.count)))
-            sentence += "\(words[randomWordIndex]) "
-        }
-        
-        return sentence
-            .condenseWhitespace().lowercased()
-            .capitalizeFirstLetter() + ". "
     }
     
     func writeToPasteboard(_ text: String) {
