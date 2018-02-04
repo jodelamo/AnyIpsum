@@ -11,13 +11,13 @@ import Foundation
 struct AIParagraph {
     var paragraph: String = ""
     
-    init(_ text: String) {
+    init(_ words: String) {
         let MaxSentences: UInt32 = 7
         let MinSentences: UInt32 = 5
         let sentenceCount = Int(arc4random_uniform(MaxSentences) + MinSentences)
         
         for _ in 0...sentenceCount {
-            paragraph += self.createSentence(text)
+            paragraph += self.createSentence(words)
         }
         
         paragraph = paragraph
@@ -27,7 +27,7 @@ struct AIParagraph {
     func createSentence(_ words: String) -> String {
         let MaxWords: UInt32 = 8
         let MinWords: UInt32 = 4
-        let words = text.words
+        let words = words.words
         let wordCount = Int(arc4random_uniform(MaxWords) + MinWords)
         
         var sentence = ""
