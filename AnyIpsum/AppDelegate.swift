@@ -15,14 +15,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var menuBar: NSMenu!
     
     let statusItem = NSStatusBar
-        .system()
-        .statusItem(withLength: NSVariableStatusItemLength)
+        .system
+        .statusItem(withLength: NSStatusItem.variableLength)
     
     // MARK: - Initialization
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Create menu icon and handle inverted appearance
-        let menuIcon = NSImage(named: "MenuIcon")
+        let menuIcon = NSImage(named: NSImage.Name(rawValue: "MenuIcon"))
         menuIcon!.isTemplate = true
         
         statusItem.image = menuIcon
@@ -86,14 +86,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func writeToPasteboard(_ text: String) {
-        let pasteboard = NSPasteboard.general()
+        let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
-        pasteboard.setString(text, forType: NSPasteboardTypeString)
+        pasteboard.setString(text, forType: NSPasteboard.PasteboardType.string)
     }
     
     // MARK: - Actions
 
     @IBAction func quit(_ sender: NSMenuItem) {
-        NSApplication.shared().terminate(self)
+        NSApplication.shared.terminate(self)
     }
 }

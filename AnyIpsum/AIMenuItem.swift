@@ -21,7 +21,7 @@ class AIMenuItem: NSMenuItem {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func action(_ sender: NSMenuItem) {
+    @objc func action(_ sender: NSMenuItem) {
         self.actionClosure()
     }
 }
