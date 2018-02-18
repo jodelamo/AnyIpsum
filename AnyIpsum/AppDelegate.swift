@@ -7,12 +7,15 @@
 //
 
 import Cocoa
+import HotKey
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var menuBar: NSMenu!
+    
+    let hotKey = HotKey(key: .a, modifiers: [.control, .command])
     
     let statusItem = NSStatusBar
         .system
@@ -54,6 +57,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             menuBar.insertItem(menuItem, at: 0)
             
             index += 1
+        }
+        
+        // Open menu bar on Ctrl+Cmd+A
+        hotKey.keyDownHandler = {
+            self.statusItem.popUpMenu(self.menuBar)
         }
     }
     

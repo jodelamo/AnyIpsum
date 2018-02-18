@@ -18,7 +18,7 @@ brew cask install anyipsum
 
 ## Usage
 
-Click the menu bar icon and pick an ipsum variation. A paragraph will be copied to the pasteboard.
+Click the menu bar icon, or press <kbd>CTRL</kbd><kbd>CMD</kbd><kbd>A</kbd>, and pick an ipsum variation. A paragraph will be copied to the pasteboard.
 
 Example output:
 
