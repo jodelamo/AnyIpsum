@@ -16,6 +16,7 @@
 		469992361D36505900D073CD /* String+words.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469992351D36505900D073CD /* String+words.swift */; };
 		46E666881D3CB873004F476F /* String+condenseWhitespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E666871D3CB873004F476F /* String+condenseWhitespace.swift */; };
 		46E6668A1D3CB8A6004F476F /* String+capitalizeFirstLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E666891D3CB8A6004F476F /* String+capitalizeFirstLetter.swift */; };
+		693826CB56962D22650F6002 /* Pods_AnyIpsum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D96B53FA2326EA377E2C7E4F /* Pods_AnyIpsum.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,9 @@
 		469992351D36505900D073CD /* String+words.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+words.swift"; sourceTree = "<group>"; };
 		46E666871D3CB873004F476F /* String+condenseWhitespace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+condenseWhitespace.swift"; sourceTree = "<group>"; };
 		46E666891D3CB8A6004F476F /* String+capitalizeFirstLetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+capitalizeFirstLetter.swift"; sourceTree = "<group>"; };
+		7E02F71A2B5A014ADC0641F9 /* Pods-AnyIpsum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnyIpsum.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum.debug.xcconfig"; sourceTree = "<group>"; };
+		B169AFB4F878C16FBA2EA39A /* Pods-AnyIpsum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnyIpsum.release.xcconfig"; path = "Pods/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum.release.xcconfig"; sourceTree = "<group>"; };
+		D96B53FA2326EA377E2C7E4F /* Pods_AnyIpsum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnyIpsum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				693826CB56962D22650F6002 /* Pods_AnyIpsum.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +53,8 @@
 			children = (
 				462FA5811D30C1AF0099FD9E /* AnyIpsum */,
 				462FA5801D30C1AF0099FD9E /* Products */,
+				69E15F794C047FAFF120DC31 /* Pods */,
+				C1358037AE2897071FFC3BFF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +99,23 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		69E15F794C047FAFF120DC31 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7E02F71A2B5A014ADC0641F9 /* Pods-AnyIpsum.debug.xcconfig */,
+				B169AFB4F878C16FBA2EA39A /* Pods-AnyIpsum.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C1358037AE2897071FFC3BFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D96B53FA2326EA377E2C7E4F /* Pods_AnyIpsum.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -99,10 +123,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 462FA58C1D30C1AF0099FD9E /* Build configuration list for PBXNativeTarget "AnyIpsum" */;
 			buildPhases = (
+				75FC4132FB63BC900073BDCA /* [CP] Check Pods Manifest.lock */,
 				462FA57B1D30C1AF0099FD9E /* Sources */,
 				462FA57C1D30C1AF0099FD9E /* Frameworks */,
 				462FA57D1D30C1AF0099FD9E /* Resources */,
 				463E21A61E9F829500258BA6 /* ShellScript */,
+				B8E5D4A9922D7591E703B43D /* [CP] Embed Pods Frameworks */,
+				70F4EF172AA549EC5CE20041 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -173,6 +200,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    echo \"Building release disk image...\"\n    hdiutil create -ov -srcfolder ${CONFIGURATION_BUILD_DIR}/${EXECUTABLE_NAME}.app AnyIpsum.dmg\nfi";
+		};
+		70F4EF172AA549EC5CE20041 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		75FC4132FB63BC900073BDCA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AnyIpsum-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B8E5D4A9922D7591E703B43D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HotKey.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -305,6 +383,7 @@
 		};
 		462FA58D1D30C1AF0099FD9E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E02F71A2B5A014ADC0641F9 /* Pods-AnyIpsum.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -319,6 +398,7 @@
 		};
 		462FA58E1D30C1AF0099FD9E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B169AFB4F878C16FBA2EA39A /* Pods-AnyIpsum.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
