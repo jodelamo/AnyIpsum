@@ -199,7 +199,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    echo \"Building release disk image...\"\n    hdiutil create -ov -srcfolder ${CONFIGURATION_BUILD_DIR}/${EXECUTABLE_NAME}.app AnyIpsum.dmg\nfi";
+			shellScript = "set -e\n\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    echo \"Building release disk image...\"\n    hdiutil create -ov -srcfolder ${CONFIGURATION_BUILD_DIR}/${EXECUTABLE_NAME}.app AnyIpsum.dmg\n    echo \"Done\"\nfi";
 		};
 		70F4EF172AA549EC5CE20041 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -387,6 +387,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AnyIpsum/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jorum.AnyIpsum;
