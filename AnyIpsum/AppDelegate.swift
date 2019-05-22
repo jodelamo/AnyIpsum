@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  AnyIpsum
-//
-//  Created by Joacim Löwgren on 09/07/16.
-//  Copyright © 2016 Joacim Löwgren. All rights reserved.
-//
-
 import Cocoa
 import HotKey
 
@@ -45,10 +37,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Build paragraph
         for (name, words) in ipsumTexts {
-            let menuItem = AIMenuItem(
+            let menuItem = MenuItem(
                 title: name as! String,
                 actionClosure: {
-                    let p = AIParagraph(words as! String)
+                    let p = Paragraph(words as! String)
                     self.writeToPasteboard(p.paragraph)
                 },
                 keyEquivalent: "\(ipsumTexts.count - index)"

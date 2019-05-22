@@ -1,19 +1,11 @@
-//
-//  AIMenuItem.swift
-//  AnyIpsum
-//
-//  Created by Joacim Löwgren on 09/07/16.
-//  Copyright © 2016 Joacim Löwgren. All rights reserved.
-//
-
 import Cocoa
 
-class AIMenuItem: NSMenuItem {
+class MenuItem: NSMenuItem {
     var actionClosure: () -> ()
     
     init(title: String, actionClosure: @escaping () -> (), keyEquivalent: String) {
         self.actionClosure = actionClosure
-        super.init(title: title, action: #selector(AIMenuItem.action(_:)), keyEquivalent: keyEquivalent)
+        super.init(title: title, action: #selector(MenuItem.action(_:)), keyEquivalent: keyEquivalent)
         self.target = self
     }
     
