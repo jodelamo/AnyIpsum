@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Create menu icon and handle inverted appearance
-        let menuIcon = NSImage(named: NSImage.Name(rawValue: "MenuIcon"))
+        let menuIcon = NSImage(named: "MenuIcon")
         menuIcon!.isTemplate = true
         statusItem.image = menuIcon
         statusItem.menu = menuBar
