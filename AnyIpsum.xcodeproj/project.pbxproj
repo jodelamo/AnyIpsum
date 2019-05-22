@@ -129,7 +129,6 @@
 				462FA57D1D30C1AF0099FD9E /* Resources */,
 				463E21A61E9F829500258BA6 /* ShellScript */,
 				B8E5D4A9922D7591E703B43D /* [CP] Embed Pods Frameworks */,
-				70F4EF172AA549EC5CE20041 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -201,21 +200,6 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    echo \"Building release disk image...\"\n    hdiutil create -ov -srcfolder ${CONFIGURATION_BUILD_DIR}/${EXECUTABLE_NAME}.app AnyIpsum.dmg\n    echo \"Done\"\nfi";
 		};
-		70F4EF172AA549EC5CE20041 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		75FC4132FB63BC900073BDCA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -240,7 +224,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -249,7 +233,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AnyIpsum/Pods-AnyIpsum-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
