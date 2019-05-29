@@ -4,13 +4,13 @@
 
 ![Screenshot of the AnyIpsum application](screenshot.png)
 
-Ipsum variations are stored in `Ipsum.plist`, and will be read upon application launch.
+Variations are stored in `Ipsum.plist`, and will be read upon application launch.
 
 Feel free to fork and improve.
 
 ## Install
 
-Download the latest disk image from [here](https://github.com/jlowgren/AnyIpsum/releases/latest), or, using [Homebrew-Cask](https://github.com/caskroom/homebrew-cask):
+Download the latest disk image from [here](https://github.com/jlowgren/AnyIpsum/releases/latest), or, using [Homebrew](https://github.com/caskroom/homebrew-cask):
 
 ```sh
 brew cask install anyipsum
@@ -18,7 +18,7 @@ brew cask install anyipsum
 
 ## Usage
 
-Click the menu bar icon, or press <kbd>CTRL</kbd><kbd>CMD</kbd><kbd>A</kbd>, and pick an ipsum variation. A paragraph will be copied to the pasteboard.
+Click the menu bar icon, or press <kbd>CTRL</kbd><kbd>CMD</kbd><kbd>A</kbd>, and pick a variation. A paragraph will be copied to the pasteboard.
 
 Example output:
 

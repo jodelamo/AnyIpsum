@@ -8,33 +8,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var menuBar: NSMenu!
 
     let hotKey = HotKey(key: .a, modifiers: [.control, .command])
-    
+
     let statusItem = NSStatusBar
         .system
         .statusItem(withLength: NSStatusItem.variableLength)
-    
+
     // MARK: - Initialization
-    
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Create menu icon and handle inverted appearance
         let menuIcon = NSImage(named: "MenuIcon")
         menuIcon!.isTemplate = true
         statusItem.image = menuIcon
         statusItem.menu = menuBar
-        
+
         // Path to list of ipsum variations
         guard let path = Bundle.main.path(forResource: "Ipsum", ofType: "plist") else {
             return
         }
-        
+
         // Dictionary of ipsum variations
         guard let ipsumTexts = NSDictionary(contentsOfFile: path) else {
             return
         }
-        
-        // Read list of ipsum variants and add as menu items
+
+        // Read list of variations and add as menu items
         var index = 0
-        
+
         // Build paragraph
         for (name, words) in ipsumTexts {
             let menuItem = MenuItem(
@@ -45,24 +45,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 },
                 keyEquivalent: "\(ipsumTexts.count - index)"
             )
-            
+
             menuBar.insertItem(menuItem, at: 0)
-            
+
             index += 1
         }
-        
+
         // Open menu bar on Ctrl+Cmd+A
         hotKey.keyDownHandler = {
             self.statusItem.popUpMenu(self.menuBar)
         }
     }
-    
+
     func writeToPasteboard(_ text: String) {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(text, forType: NSPasteboard.PasteboardType.string)
     }
-    
+
     // MARK: - Actions
 
     @IBAction func quit(_ sender: NSMenuItem) {
