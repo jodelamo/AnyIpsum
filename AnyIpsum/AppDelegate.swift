@@ -6,7 +6,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var menuBar: NSMenu!
-    
+
     let hotKey = HotKey(key: .a, modifiers: [.control, .command])
     
     let statusItem = NSStatusBar
