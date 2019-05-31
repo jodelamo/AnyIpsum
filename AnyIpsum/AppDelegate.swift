@@ -22,12 +22,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.image = menuIcon
         statusItem.menu = menuBar
 
-        // Path to list of ipsum variations
+        // Path to list of variations
         guard let path = Bundle.main.path(forResource: "Ipsum", ofType: "plist") else {
             return
         }
 
-        // Dictionary of ipsum variations
+        // Dictionary of variations
         guard let ipsumTexts = NSDictionary(contentsOfFile: path) else {
             return
         }
@@ -35,11 +35,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Read list of variations and add as menu items
         var index = 0
 
-        // Build paragraph
         for (name, words) in ipsumTexts {
             let menuItem = MenuItem(
                 title: name as! String,
                 actionClosure: {
+                    // When selecting a menu item; create a paragraph and copy it to the pasteboard
                     let p = Paragraph(words as! String)
                     self.writeToPasteboard(p.paragraph)
                 },
