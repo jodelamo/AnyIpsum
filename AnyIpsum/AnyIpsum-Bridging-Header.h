@@ -1,0 +1,1 @@
+#import <MASShortcut/Shortcut.h>

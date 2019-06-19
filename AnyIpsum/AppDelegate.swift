@@ -1,14 +1,14 @@
 import Cocoa
-import HotKey
+import MASShortcut
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var menuBar: NSMenu!
 
-    let hotKey = HotKey(key: .a, modifiers: [.control, .command])
-
+    var preferencesController: NSWindowController?
+    var shortcutManager: ShortcutManager?
+    
     let statusItem = NSStatusBar
         .system
         .statusItem(withLength: NSStatusItem.variableLength)
@@ -21,13 +21,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menuIcon!.isTemplate = true
         statusItem.image = menuIcon
         statusItem.menu = menuBar
-
-        // Path to list of variations
+        
+        // Initialize lorem ipsum variations
         guard let path = Bundle.main.path(forResource: "Ipsum", ofType: "plist") else {
             return
         }
 
-        // Dictionary of variations
         guard let ipsumTexts = NSDictionary(contentsOfFile: path) else {
             return
         }
@@ -50,11 +49,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             index += 1
         }
-
-        // Open menu bar on Ctrl+Cmd+A
-        hotKey.keyDownHandler = {
-            self.statusItem.popUpMenu(self.menuBar)
-        }
+        
+        // Register keyboard shortcut
+        MASShortcutBinder.shared()?.bindShortcut(withDefaultsKey: ShortcutManager.defaultsKey, toAction: openMenu)
+    }
+    
+    func openMenu() {
+        self.statusItem.popUpMenu(self.menuBar)
+    }
+    
+    func applicationWillTerminate(aNotification: NSNotification) {
+        MASShortcutMonitor.shared().unregisterAllShortcuts()
     }
 
     func writeToPasteboard(_ text: String) {
@@ -67,5 +72,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func quit(_ sender: NSMenuItem) {
         NSApplication.shared.terminate(self)
+    }
+    
+    @IBAction func showPreferences(_ sender: Any) {
+        if preferencesController == nil {
+            let storyboard = NSStoryboard(name: "Preferences", bundle: nil)
+            preferencesController = storyboard.instantiateInitialController() as? NSWindowController
+        }
+        
+        preferencesController?.showWindow(sender)
     }
 }
