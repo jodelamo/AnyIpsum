@@ -54,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func openMenu() {
-        self.statusItem.popUpMenu(self.menuBar)
+        statusItem.popUpMenu(menuBar)
     }
     
     func applicationWillTerminate(aNotification: NSNotification) {
