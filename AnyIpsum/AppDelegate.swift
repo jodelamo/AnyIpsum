@@ -7,7 +7,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var menuBar: NSMenu!
 
     var preferencesController: NSWindowController?
-    var shortcutManager: ShortcutManager?
     
     let statusItem = NSStatusBar
         .system
