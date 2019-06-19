@@ -1,16 +1,16 @@
 PODS:
-  - HotKey (0.1.1)
+  - MASShortcut (2.3.6)
 
 DEPENDENCIES:
-  - HotKey
+  - MASShortcut (~> 2.3.6)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - HotKey
+    - MASShortcut
 
 SPEC CHECKSUMS:
-  HotKey: 0be143fd015544a63c51be6dc2066dbf455ced72
+  MASShortcut: 9c215e8a8a78f3d01ce56da48e2730ab66b538fa
 
-PODFILE CHECKSUM: e239d4aedf8f78b6b2ddecfc57731b9c3a6ea527
+PODFILE CHECKSUM: 5799182a3c775b73f09759d3f4465db0a32bc562
 
 COCOAPODS: 1.6.1
