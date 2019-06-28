@@ -1,7 +1,7 @@
 import Foundation
 
 struct Paragraph {
-    var paragraph: String = ""
+    var text: String = ""
     
     init(_ words: String) {
         let MaxSentences: UInt32 = 7
@@ -9,10 +9,10 @@ struct Paragraph {
         let sentenceCount = Int(arc4random_uniform(MaxSentences) + MinSentences)
         
         for _ in 0...sentenceCount {
-            paragraph += self.createSentence(words)
+            text += self.createSentence(words)
         }
         
-        paragraph = paragraph
+        text = text
             .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
     

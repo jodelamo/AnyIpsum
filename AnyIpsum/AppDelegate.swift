@@ -38,8 +38,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 title: name as! String,
                 actionClosure: {
                     // When selecting a menu item; create a paragraph and copy it to the pasteboard
-                    let p = Paragraph(words as! String)
-                    self.writeToPasteboard(p.paragraph)
+                    let paragraph = Paragraph(words as! String)
+                    self.writeToPasteboard(paragraph.text)
                 },
                 keyEquivalent: index < 10 ? "\(ipsumTexts.count - index)" : ""
             )
