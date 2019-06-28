@@ -41,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     let p = Paragraph(words as! String)
                     self.writeToPasteboard(p.paragraph)
                 },
-                keyEquivalent: "\(ipsumTexts.count - index)"
+                keyEquivalent: index < 10 ? "\(ipsumTexts.count - index)" : ""
             )
 
             menuBar.insertItem(menuItem, at: 0)
