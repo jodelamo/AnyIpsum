@@ -168,8 +168,8 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = "Joacim Löwgren";
+				LastUpgradeCheck = 1150;
+				ORGANIZATIONNAME = "Joacim de la Motte";
 				TargetAttributes = {
 					462FA57E1D30C1AF0099FD9E = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -402,10 +402,12 @@
 			baseConfigurationReference = 7E02F71A2B5A014ADC0641F9 /* Pods-AnyIpsum.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AnyIpsum/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 0.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jorum.AnyIpsum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -417,9 +419,11 @@
 			baseConfigurationReference = B169AFB4F878C16FBA2EA39A /* Pods-AnyIpsum.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = AnyIpsum/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 0.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jorum.AnyIpsum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
