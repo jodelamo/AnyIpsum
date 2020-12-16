@@ -6,7 +6,9 @@
 
 Variations are stored in `Ipsum.plist`, and will be read upon application launch.
 
-Feel free to add more lorem ipsum variations in a PR, and they will be considered.
+## Prerequisites
+
+macOS Catalina 10.15
 
 ## Install
 
