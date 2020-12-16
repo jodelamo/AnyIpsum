@@ -12,11 +12,7 @@ macOS Catalina 10.15
 
 ## Install
 
-Download the latest disk image from [here](https://github.com/jlowgren/AnyIpsum/releases/latest), or, using [Homebrew](https://github.com/caskroom/homebrew-cask):
-
-```sh
-brew cask install anyipsum
-```
+Download the latest disk image from [here](https://github.com/jlowgren/AnyIpsum/releases/latest).
 
 ## Usage
 
