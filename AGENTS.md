@@ -6,3 +6,5 @@
 - Releases must use `SEMANTIC_RELEASE_TOKEN`, not `GITHUB_TOKEN`, because events created by `GITHUB_TOKEN` do not trigger the downstream publish workflow.
 - Node release tools are intentionally run through pinned `npx` packages. Do not add a local npm project solely for CI tooling.
 - Published macOS artifacts are intentionally unsigned and unnotarized.
+- Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages.
+- Use `.github/pull_request_template.md` for every pull request and complete each section before creating or updating it.
