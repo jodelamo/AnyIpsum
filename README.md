@@ -20,7 +20,7 @@ Click the menu bar icon, or press <kbd>CTRL</kbd><kbd>CMD</kbd><kbd>A</kbd>, and
 
 Example output:
 
-> Candy roll topping chocolate cake bear bar gummies bonbon sweet cupcake snaps fruitcake. Fruitcake sweet gummies liquorice pie sweet cake plum pie marzipan sweet caramels chups biscuit sweet. Dessert chocolate plum cake cupcake candy candy candy marzipan roll pudding jelly fruitcake. Cake snaps roll candy donut gummies pie sesame sugar cake cotton claw tootsie. Chocolate oat powder sesame gummies pudding powder pudding gummies caramels jellyo roll. Candy candy powder cheesecake candy pie. Bear marzipan oat gummies pie chocolate fruitcake wafer candy cupcake caramels roll cake sugar chocolate. Pudding caramels cake topping cake pie cake tootsie tart sugar apple snaps claw.
+> Fringilla at donec lorem fringilla. Vulputate fusce elit lectus. Leo arcu elit sollicitudin aliquam. Vulputate posuere fusce fermentum dui vulputate id. Dui fusce sagittis ligula finibus. Interdum arcu quis non ut magna.
 
 ## Development
 
