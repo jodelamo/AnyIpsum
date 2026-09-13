@@ -6,9 +6,15 @@ export default {
     ["@semantic-release/release-notes-generator", { preset: "conventionalcommits" }],
     ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md" }],
     [
+      "@semantic-release/exec",
+      {
+        prepareCmd: "bash ./scripts/update-marketing-version.sh ${nextRelease.version}",
+      },
+    ],
+    [
       "@semantic-release/git",
       {
-        assets: ["CHANGELOG.md"],
+        assets: ["CHANGELOG.md", "AnyIpsum.xcodeproj/project.pbxproj"],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
       },
