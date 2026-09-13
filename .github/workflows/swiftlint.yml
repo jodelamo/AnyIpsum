@@ -6,13 +6,6 @@ on:
       - ".github/workflows/swiftlint.yml"
       - ".swiftlint.yml"
       - "**/*.swift"
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/swiftlint.yml"
-      - ".swiftlint.yml"
-      - "**/*.swift"
 
 permissions:
   contents: read
