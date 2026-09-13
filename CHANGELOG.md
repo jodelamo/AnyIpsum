@@ -1,3 +1,9 @@
+## [0.8.3](https://github.com/jodelamo/AnyIpsum/compare/v0.8.2...v0.8.3) (2026-09-13)
+
+### Bug Fixes
+
+* defer status menu opening during layout ([#18](https://github.com/jodelamo/AnyIpsum/issues/18)) ([28ba80a](https://github.com/jodelamo/AnyIpsum/commit/28ba80a3f42f56b3aa72c9d70f4c6c1da8fb9f19))
+
 ## [0.8.2](https://github.com/jodelamo/AnyIpsum/compare/v0.8.1...v0.8.2) (2026-09-13)
 
 ### Bug Fixes
