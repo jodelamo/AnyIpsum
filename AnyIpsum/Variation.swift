@@ -30,6 +30,12 @@ enum VariationStoreError: LocalizedError, Equatable {
 enum VariationStore {
     static let maxImportFileSize = 10 * 1024
 
+    private enum PersistedVariationsCodingKeys: String, CodingKey {
+        case customVariations
+        case deletedBuiltInNames
+        case variationOrder
+    }
+
     static func validateImportFileSize(_ url: URL) throws {
         let fileSize = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
         guard fileSize <= maxImportFileSize else {
@@ -240,16 +246,10 @@ enum VariationStore {
         var deletedBuiltInNames: [String] = []
         var variationOrder: [String] = []
 
-        private enum CodingKeys: String, CodingKey {
-            case customVariations
-            case deletedBuiltInNames
-            case variationOrder
-        }
-
         init() {}
 
         init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let container = try decoder.container(keyedBy: PersistedVariationsCodingKeys.self)
             customVariations = try container.decodeIfPresent([Variation].self, forKey: .customVariations) ?? []
             deletedBuiltInNames = try container.decodeIfPresent([String].self, forKey: .deletedBuiltInNames) ?? []
             variationOrder = try container.decodeIfPresent([String].self, forKey: .variationOrder) ?? []
