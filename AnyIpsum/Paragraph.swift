@@ -1,36 +1,32 @@
 import Foundation
 
-struct Paragraph {
-    var text: String = ""
-    
-    init(_ words: String) {
-        let MaxSentences: UInt32 = 7
-        let MinSentences: UInt32 = 5
-        let sentenceCount = Int(arc4random_uniform(MaxSentences) + MinSentences)
-        
-        for _ in 0...sentenceCount {
-            text += self.createSentence(words)
+enum ParagraphGenerator {
+    static func generate(
+        from source: String,
+        sentenceCount: ClosedRange<Int> = 5...7,
+        wordsPerSentence: ClosedRange<Int> = 4...8,
+        using random: inout some RandomNumberGenerator
+    ) -> String {
+        let words = source.words
+        guard !words.isEmpty, !sentenceCount.isEmpty, !wordsPerSentence.isEmpty else {
+            return ""
         }
-        
-        text = text
-            .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+
+        return (0..<Int.random(in: sentenceCount, using: &random))
+            .map { _ in
+                let count = Int.random(in: wordsPerSentence, using: &random)
+                let sentence = (0..<count)
+                    .map { _ in words.randomElement(using: &random)! }
+                    .joined(separator: " ")
+                    .lowercased()
+                    .capitalizeFirstLetter()
+                return sentence + "."
+            }
+            .joined(separator: " ")
     }
-    
-    func createSentence(_ words: String) -> String {
-        let MaxWords: UInt32 = 8
-        let MinWords: UInt32 = 4
-        let words = words.words
-        let wordCount = Int(arc4random_uniform(MaxWords) + MinWords)
-        
-        var sentence = ""
-        
-        for _ in 0...wordCount {
-            let randomWordIndex = Int(arc4random_uniform(UInt32(words.count)))
-            sentence += "\(words[randomWordIndex]) "
-        }
-        
-        return sentence
-            .condenseWhitespace().lowercased()
-            .capitalizeFirstLetter() + ". "
+
+    static func generate(from source: String) -> String {
+        var random = SystemRandomNumberGenerator()
+        return generate(from: source, using: &random)
     }
 }

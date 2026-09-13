@@ -1,2 +1,6 @@
 DerivedData
 *.dmg
+Pods
+.DS_Store
+xcuserdata
+dist

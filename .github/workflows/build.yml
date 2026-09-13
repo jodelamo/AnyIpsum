@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  XCODE_VERSION: "16.4"
+
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - name: Report toolchain
+        run: xcodebuild -version
+
+      - name: Build and test
+        run: |
+          xcodebuild \
+            -project AnyIpsum.xcodeproj \
+            -scheme AnyIpsum \
+            -configuration Debug \
+            -sdk macosx \
+            -derivedDataPath "$RUNNER_TEMP/AnyIpsumDerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            test

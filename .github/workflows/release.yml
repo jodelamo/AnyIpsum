@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows:
+      - Build
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Analyze the release without tagging or publishing
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: semantic-release-main
+  cancel-in-progress: false
+
+jobs:
+  semantic-release:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          token: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          args=()
+          if [[ "$DRY_RUN" == "true" ]]; then
+            args+=(--dry-run)
+          fi
+
+          npx --yes \
+            --package=semantic-release@25.0.9 \
+            --package=@semantic-release/commit-analyzer@13.0.1 \
+            --package=@semantic-release/release-notes-generator@14.1.1 \
+            --package=@semantic-release/changelog@7.0.0 \
+            --package=@semantic-release/git@11.0.1 \
+            --package=@semantic-release/github@12.0.9 \
+            --package=conventional-changelog-conventionalcommits@10.4.0 \
+            semantic-release "${args[@]}"
