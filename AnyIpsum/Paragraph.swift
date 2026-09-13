@@ -12,11 +12,20 @@ enum ParagraphGenerator {
             return ""
         }
 
+        var previousWord: String?
+
         return (0..<Int.random(in: sentenceCount, using: &random))
             .map { _ in
                 let count = Int.random(in: wordsPerSentence, using: &random)
                 let sentence = (0..<count)
-                    .map { _ in words.randomElement(using: &random)! }
+                    .map { _ in
+                        let randomWord = words.randomElement(using: &random)!
+                        let word = randomWord.lowercased() == previousWord
+                            ? words.first { $0.lowercased() != previousWord } ?? randomWord
+                            : randomWord
+                        previousWord = word.lowercased()
+                        return word
+                    }
                     .joined(separator: " ")
                     .lowercased()
                     .capitalizeFirstLetter()

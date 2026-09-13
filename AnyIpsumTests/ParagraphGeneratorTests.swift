@@ -23,6 +23,22 @@ final class ParagraphGeneratorTests: XCTestCase {
 
         XCTAssertEqual(paragraph, "")
     }
+
+    func testGeneratorDoesNotRepeatAdjacentWords() {
+        var random = FixedRandomNumberGenerator()
+        let paragraph = ParagraphGenerator.generate(
+            from: "alpha beta",
+            sentenceCount: 2...2,
+            wordsPerSentence: 3...3,
+            using: &random
+        )
+
+        let words = paragraph
+            .split { $0 == " " || $0 == "." }
+            .map(String.init)
+
+        XCTAssertFalse(zip(words, words.dropFirst()).contains { $0 == $1 })
+    }
 }
 
 private struct FixedRandomNumberGenerator: RandomNumberGenerator {
