@@ -59,5 +59,5 @@ jobs:
             --package=@semantic-release/changelog@7.0.0 \
             --package=@semantic-release/git@11.0.1 \
             --package=@semantic-release/github@12.0.9 \
-            --package=conventional-changelog-conventionalcommits@9.3.1 \
+            --package=conventional-changelog-conventionalcommits@8.0.0 \
             semantic-release "${args[@]}"
