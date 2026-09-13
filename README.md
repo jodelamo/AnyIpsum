@@ -26,7 +26,7 @@ Example output:
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/). Pull requests and pushes are checked with commitlint.
 
-The `Build` workflow tests pull requests and pushes to `main`. After a successful build on `main`, the isolated `Release` workflow runs semantic-release. Release-worthy commits update `CHANGELOG.md`, create a version tag, and create a GitHub release. Publishing that release triggers the separate `Publish Release` workflow, which builds and attaches unsigned universal macOS ZIP and DMG artifacts. Use `feat:` for a minor release, `fix:` for a patch release, and a breaking-change footer for a major release.
+The `Build` workflow tests pull requests and pushes to `main`. After a successful build on `main`, the isolated `Release` workflow runs semantic-release. Release-worthy commits generate release notes, attach a generated `CHANGELOG.md` to the GitHub release, and create a version tag without pushing a release commit to protected `main`. Publishing that release triggers the separate `Publish Release` workflow, which builds and attaches unsigned universal macOS ZIP and DMG artifacts. Use `feat:` for a minor release, `fix:` for a patch release, and a breaking-change footer for a major release.
 
 Publishing adds SHA-256 checksums and generates GitHub artifact provenance attestations. The app is not code-signed or notarized, so users may need to explicitly allow it through macOS Gatekeeper.
 

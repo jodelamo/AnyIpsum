@@ -6,18 +6,11 @@ export default {
     ["@semantic-release/release-notes-generator", { preset: "conventionalcommits" }],
     ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md" }],
     [
-      "@semantic-release/git",
-      {
-        assets: ["CHANGELOG.md"],
-        message:
-          "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
-      },
-    ],
-    [
       "@semantic-release/github",
       {
         successComment: false,
         failComment: false,
+        assets: ["CHANGELOG.md"],
       },
     ],
   ],
