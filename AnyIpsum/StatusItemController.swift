@@ -17,7 +17,10 @@ final class StatusItemController: NSObject {
     }
 
     func openMenu() {
-        statusItem.button?.performClick(nil)
+        // Let the current event and layout pass finish before opening the menu.
+        DispatchQueue.main.async { [weak self] in
+            self?.statusItem.button?.performClick(nil)
+        }
     }
 
     private func makeMenu() -> NSMenu {
