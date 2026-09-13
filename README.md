@@ -34,6 +34,8 @@ The release workflow can also be started manually with `dry_run` enabled. A dry 
 
 Add a repository secret named `SEMANTIC_RELEASE_TOKEN` containing a fine-grained personal access token with repository Contents read/write permission. A dedicated token is required because releases created with the default `GITHUB_TOKEN` do not trigger the downstream `release.published` workflow.
 
+The GitHub account that owns `SEMANTIC_RELEASE_TOKEN` must also be configured as an `always` bypass actor on the `main` branch ruleset. Semantic-release commits the generated changelog directly to `main`; the token alone does not bypass repository rules.
+
 ## License
 
 MIT

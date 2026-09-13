@@ -57,6 +57,7 @@ jobs:
             --package=@semantic-release/commit-analyzer@13.0.1 \
             --package=@semantic-release/release-notes-generator@14.1.1 \
             --package=@semantic-release/changelog@7.0.0 \
+            --package=@semantic-release/git@11.0.1 \
             --package=@semantic-release/github@12.0.9 \
             --package=conventional-changelog-conventionalcommits@8.0.0 \
             semantic-release "${args[@]}"
