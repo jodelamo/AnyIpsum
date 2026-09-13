@@ -1,3 +1,9 @@
+## [0.8.2](https://github.com/jodelamo/AnyIpsum/compare/v0.8.1...v0.8.2) (2026-09-13)
+
+### Bug Fixes
+
+* sync Xcode marketing version on release ([#17](https://github.com/jodelamo/AnyIpsum/issues/17)) ([206d189](https://github.com/jodelamo/AnyIpsum/commit/206d1890a7cb40f99cc728c50d460d641af3e088))
+
 ## [0.8.1](https://github.com/jodelamo/AnyIpsum/compare/v0.8.0...v0.8.1) (2026-09-13)
 
 ### Bug Fixes
