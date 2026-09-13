@@ -2,7 +2,6 @@ name: Commitlint
 
 on:
   pull_request:
-  push:
 
 permissions:
   contents: read
@@ -23,19 +22,8 @@ jobs:
 
       - name: Lint commits
         env:
-          EVENT_NAME: ${{ github.event_name }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          BEFORE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          commitlint() {
-            npx --yes --package=@commitlint/cli@21.2.2 commitlint "$@"
-          }
-
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+          npx --yes --package=@commitlint/cli@21.2.2 \
             commitlint --from "$BASE_SHA" --to "$HEAD_SHA" --verbose
-          elif [[ "$BEFORE_SHA" =~ ^0+$ ]]; then
-            commitlint --last --verbose
-          else
-            commitlint --from "$BEFORE_SHA" --to "$HEAD_SHA" --verbose
-          fi
