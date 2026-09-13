@@ -1,3 +1,9 @@
+## [0.9.0](https://github.com/jodelamo/AnyIpsum/compare/v0.8.3...v0.9.0) (2026-09-13)
+
+### Features
+
+* support custom ipsum variations ([#22](https://github.com/jodelamo/AnyIpsum/issues/22)) ([60aed20](https://github.com/jodelamo/AnyIpsum/commit/60aed203b7c5fb9c63c6734615a7402eca14d1b6))
+
 ## [0.8.3](https://github.com/jodelamo/AnyIpsum/compare/v0.8.2...v0.8.3) (2026-09-13)
 
 ### Bug Fixes
