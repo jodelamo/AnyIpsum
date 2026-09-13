@@ -28,3 +28,37 @@ final class ParagraphGeneratorTests: XCTestCase {
 private struct FixedRandomNumberGenerator: RandomNumberGenerator {
     mutating func next() -> UInt64 { 0 }
 }
+
+final class ShortcutManagerTests: XCTestCase {
+    func testFailedUpdateRestoresPreviousShortcut() throws {
+        let original = Shortcut.default
+        let replacement = Shortcut(keyCode: 11, modifiers: original.modifiers, keyName: "B")
+        var registrationAttempts: [Shortcut] = []
+        var unregistrationCount = 0
+
+        let manager = ShortcutManager(
+            action: {},
+            registerHotKey: { shortcut, reference in
+                registrationAttempts.append(shortcut)
+                if shortcut == replacement {
+                    return OSStatus(-9878)
+                }
+                reference.pointee = OpaquePointer(bitPattern: registrationAttempts.count)
+                return noErr
+            },
+            unregisterHotKey: { _ in
+                unregistrationCount += 1
+                return noErr
+            }
+        )
+
+        try manager.update(original)
+        XCTAssertThrowsError(try manager.update(replacement))
+        XCTAssertEqual(registrationAttempts, [original, replacement, original])
+        XCTAssertEqual(unregistrationCount, 1)
+
+        try manager.update(original)
+        XCTAssertEqual(registrationAttempts, [original, replacement, original])
+        XCTAssertEqual(unregistrationCount, 1)
+    }
+}

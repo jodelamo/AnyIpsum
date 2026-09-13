@@ -77,48 +77,120 @@ struct Shortcut: Codable, Equatable, Sendable {
     }
 }
 
+enum ShortcutManagerError: LocalizedError {
+    case eventHandlerInstallationFailed(OSStatus)
+    case hotKeyUnregistrationFailed(OSStatus)
+    case hotKeyRegistrationFailed(OSStatus)
+    case hotKeyRestorationFailed(registrationStatus: OSStatus, restorationStatus: OSStatus)
+
+    var errorDescription: String? {
+        switch self {
+        case let .eventHandlerInstallationFailed(status):
+            return "The global shortcut handler could not be installed: \(Self.describe(status))."
+        case let .hotKeyUnregistrationFailed(status):
+            return "The current global shortcut could not be replaced: \(Self.describe(status))."
+        case let .hotKeyRegistrationFailed(status):
+            return "That global shortcut is unavailable: \(Self.describe(status))."
+        case let .hotKeyRestorationFailed(registrationStatus, restorationStatus):
+            return "The new shortcut could not be registered (\(Self.describe(registrationStatus))), "
+                + "and the previous shortcut could not be restored (\(Self.describe(restorationStatus)))."
+        }
+    }
+
+    private static func describe(_ status: OSStatus) -> String {
+        let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status))
+        return "\(error.localizedDescription) (\(status))"
+    }
+}
+
 final class ShortcutManager {
+    typealias RegisterHotKey = (Shortcut, UnsafeMutablePointer<EventHotKeyRef?>) -> OSStatus
+    typealias UnregisterHotKey = (EventHotKeyRef) -> OSStatus
+
     private static let defaultsKey = "shortcut"
     private static let hotKeyID: UInt32 = 1
+    private static let missingReferenceStatus = OSStatus(-1)
 
     private let action: () -> Void
+    private let registerHotKey: RegisterHotKey
+    private let unregisterHotKey: UnregisterHotKey
     private var hotKeyRef: EventHotKeyRef?
+    private var registeredShortcut: Shortcut?
     private var eventHandler: EventHandlerRef?
 
     init(action: @escaping () -> Void) {
         self.action = action
+        registerHotKey = Self.registerSystemHotKey
+        unregisterHotKey = UnregisterEventHotKey
+    }
+
+    init(
+        action: @escaping () -> Void,
+        registerHotKey: @escaping RegisterHotKey,
+        unregisterHotKey: @escaping UnregisterHotKey
+    ) {
+        self.action = action
+        self.registerHotKey = registerHotKey
+        self.unregisterHotKey = unregisterHotKey
     }
 
     deinit {
         stop()
     }
 
-    func start(with shortcut: Shortcut) {
-        installEventHandler()
-        update(shortcut)
+    func start(with shortcut: Shortcut) throws {
+        try installEventHandler()
+        try update(shortcut)
     }
 
-    func update(_ shortcut: Shortcut) {
+    func update(_ shortcut: Shortcut) throws {
+        guard shortcut != registeredShortcut else { return }
+
+        let previousShortcut = registeredShortcut
         if let hotKeyRef {
-            UnregisterEventHotKey(hotKeyRef)
+            let status = unregisterHotKey(hotKeyRef)
+            guard status == noErr else {
+                throw ShortcutManagerError.hotKeyUnregistrationFailed(status)
+            }
             self.hotKeyRef = nil
+            registeredShortcut = nil
         }
 
-        let hotKey = EventHotKeyID(signature: OSType(0x41495053), id: Self.hotKeyID)
-        RegisterEventHotKey(
-            shortcut.keyCode,
-            shortcut.modifiers,
-            hotKey,
-            GetApplicationEventTarget(),
-            0,
-            &hotKeyRef
-        )
+        let registration = register(shortcut)
+        guard registration.status == noErr, let hotKeyRef = registration.reference else {
+            let registrationStatus = registration.status == noErr
+                ? Self.missingReferenceStatus
+                : registration.status
+
+            if let previousShortcut {
+                let restoration = register(previousShortcut)
+                if restoration.status == noErr, let restoredRef = restoration.reference {
+                    self.hotKeyRef = restoredRef
+                    registeredShortcut = previousShortcut
+                    throw ShortcutManagerError.hotKeyRegistrationFailed(registrationStatus)
+                }
+
+                let restorationStatus = restoration.status == noErr
+                    ? Self.missingReferenceStatus
+                    : restoration.status
+                throw ShortcutManagerError.hotKeyRestorationFailed(
+                    registrationStatus: registrationStatus,
+                    restorationStatus: restorationStatus
+                )
+            }
+
+            throw ShortcutManagerError.hotKeyRegistrationFailed(registrationStatus)
+        }
+
+        self.hotKeyRef = hotKeyRef
+        registeredShortcut = shortcut
     }
 
     func stop() {
         if let hotKeyRef {
-            UnregisterEventHotKey(hotKeyRef)
+            unregisterHotKey(hotKeyRef)
             self.hotKeyRef = nil
+            registeredShortcut = nil
         }
         if let eventHandler {
             RemoveEventHandler(eventHandler)
@@ -139,7 +211,15 @@ final class ShortcutManager {
         defaults.set(data, forKey: defaultsKey)
     }
 
-    private func installEventHandler() {
+    private func register(_ shortcut: Shortcut) -> (status: OSStatus, reference: EventHotKeyRef?) {
+        var reference: EventHotKeyRef?
+        let status = registerHotKey(shortcut, &reference)
+        return (status, reference)
+    }
+
+    private func installEventHandler() throws {
+        guard eventHandler == nil else { return }
+
         var eventSpec = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         let callback: EventHandlerUPP = { _, _, userData in
             guard let userData else { return noErr }
@@ -148,13 +228,33 @@ final class ShortcutManager {
             return noErr
         }
 
-        InstallEventHandler(
+        let status = InstallEventHandler(
             GetApplicationEventTarget(),
             callback,
             1,
             &eventSpec,
             Unmanaged.passUnretained(self).toOpaque(),
             &eventHandler
+        )
+        guard status == noErr, eventHandler != nil else {
+            throw ShortcutManagerError.eventHandlerInstallationFailed(
+                status == noErr ? Self.missingReferenceStatus : status
+            )
+        }
+    }
+
+    private static func registerSystemHotKey(
+        _ shortcut: Shortcut,
+        _ reference: UnsafeMutablePointer<EventHotKeyRef?>
+    ) -> OSStatus {
+        let hotKey = EventHotKeyID(signature: OSType(0x41495053), id: hotKeyID)
+        return RegisterEventHotKey(
+            shortcut.keyCode,
+            shortcut.modifiers,
+            hotKey,
+            GetApplicationEventTarget(),
+            0,
+            reference
         )
     }
 }

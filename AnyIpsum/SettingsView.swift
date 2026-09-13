@@ -28,6 +28,11 @@ struct SettingsView: View {
                 Button("Use Default Shortcut") {
                     model.resetShortcut()
                 }
+
+                if let shortcutError = model.shortcutError {
+                    Label(shortcutError, systemImage: "exclamationmark.triangle")
+                        .foregroundStyle(.red)
+                }
             }
 
             Section {
