@@ -8,7 +8,7 @@ Variations are stored in `Ipsum.plist`, and will be read upon application launch
 
 ## Prerequisites
 
-macOS Catalina 10.15
+macOS Sonoma 14.0 or later
 
 ## Install
 
@@ -16,7 +16,7 @@ Download the latest disk image from [here](https://github.com/jlowgren/AnyIpsum/
 
 ## Usage
 
-Click the menu bar icon, or press <kbd>CTRL</kbd><kbd>CMD</kbd><kbd>A</kbd>, and pick a variation. A paragraph will be copied to the pasteboard.
+Click the menu bar icon, or press <kbd>CTRL</kbd><kbd>CMD</kbd><kbd>A</kbd>, and pick a variation. A paragraph will be copied to the pasteboard. The global shortcut can be changed in Settings.
 
 Example output:
 
@@ -25,3 +25,15 @@ Example output:
 ## License
 
 MIT
+
+## Development
+
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/). Pull requests and pushes are checked with commitlint.
+
+The `Build` workflow tests pull requests and pushes to `main`. After a successful build on `main`, the isolated `Release` workflow runs semantic-release. Release-worthy commits update `CHANGELOG.md`, create a version tag, and create a GitHub release. Publishing that release triggers the separate `Publish Release` workflow, which builds and attaches unsigned universal macOS ZIP and DMG artifacts. Use `feat:` for a minor release, `fix:` for a patch release, and a breaking-change footer for a major release.
+
+Publishing adds SHA-256 checksums and generates GitHub artifact provenance attestations. The app is not code-signed or notarized, so users may need to explicitly allow it through macOS Gatekeeper.
+
+The release workflow can also be started manually with `dry_run` enabled. A dry run reports semantic-release's proposed version and release notes without tagging or publishing anything.
+
+Add a repository secret named `SEMANTIC_RELEASE_TOKEN` containing a fine-grained personal access token with repository Contents read/write permission. A dedicated token is required because releases created with the default `GITHUB_TOKEN` do not trigger the downstream `release.published` workflow.
