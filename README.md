@@ -22,10 +22,6 @@ Example output:
 
 > Candy roll topping chocolate cake bear bar gummies bonbon sweet cupcake snaps fruitcake. Fruitcake sweet gummies liquorice pie sweet cake plum pie marzipan sweet caramels chups biscuit sweet. Dessert chocolate plum cake cupcake candy candy candy marzipan roll pudding jelly fruitcake. Cake snaps roll candy donut gummies pie sesame sugar cake cotton claw tootsie. Chocolate oat powder sesame gummies pudding powder pudding gummies caramels jellyo roll. Candy candy powder cheesecake candy pie. Bear marzipan oat gummies pie chocolate fruitcake wafer candy cupcake caramels roll cake sugar chocolate. Pudding caramels cake topping cake pie cake tootsie tart sugar apple snaps claw.
 
-## License
-
-MIT
-
 ## Development
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/). Pull requests and pushes are checked with commitlint.
@@ -37,3 +33,7 @@ Publishing adds SHA-256 checksums and generates GitHub artifact provenance attes
 The release workflow can also be started manually with `dry_run` enabled. A dry run reports semantic-release's proposed version and release notes without tagging or publishing anything.
 
 Add a repository secret named `SEMANTIC_RELEASE_TOKEN` containing a fine-grained personal access token with repository Contents read/write permission. A dedicated token is required because releases created with the default `GITHUB_TOKEN` do not trigger the downstream `release.published` workflow.
+
+## License
+
+MIT
