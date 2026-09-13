@@ -2,7 +2,7 @@
 
 > macOS menu bar application that lets you select a [lorem ipsum](https://en.wikipedia.org/wiki/Lorem_ipsum) variation and copy it to the pasteboard.
 
-![Screenshot of the AnyIpsum application](screenshot.png)
+![Screenshot of the AnyIpsum application](media/screenshot.png)
 
 Variations are stored in `Ipsum.plist`, and will be read upon application launch.
 
