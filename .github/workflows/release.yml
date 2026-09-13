@@ -12,7 +12,7 @@ on:
         description: Analyze the release without tagging or publishing
         required: false
         type: boolean
-        default: true
+        default: false
 
 permissions:
   contents: read
