@@ -1,20 +1,77 @@
+import AppKit
 import Carbon.HIToolbox
 import SwiftUI
 
 struct SettingsView: View {
     let model: AppModel
 
+    private let githubURL = URL(string: "https://github.com/jodelamo/AnyIpsum")!
+
     var body: some View {
-        Form {
-            Section("Keyboard Shortcut") {
-                HStack {
-                    Text("Open menu")
+        HStack(spacing: 0) {
+            sidebar
+
+            Divider()
+
+            generalSettings
+        }
+        .frame(width: 860, height: 560)
+        .background(Color(nsColor: .windowBackgroundColor))
+    }
+
+    private var sidebar: some View {
+        VStack(spacing: 12) {
+            Image(nsImage: NSApp.applicationIconImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 150, height: 150)
+                .accessibilityHidden(true)
+
+            Text("AnyIpsum")
+                .font(.system(size: 34, weight: .bold))
+
+            Text("Version \(appVersion)")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+
+            Text("A simple lorem ipsum generator.")
+                .font(.title3)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.top, 8)
+
+            Spacer()
+
+            Link(destination: githubURL) {
+                HStack(spacing: 5) {
+                    Text("Visit AnyIpsum on GitHub")
+                    Image(systemName: "arrow.up.right")
+                        .font(.caption.weight(.semibold))
+                }
+            }
+            .font(.callout)
+        }
+        .padding(.horizontal, 34)
+        .padding(.vertical, 42)
+        .frame(width: 300)
+    }
+
+    private var generalSettings: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            Text("General")
+                .font(.system(size: 28, weight: .bold))
+
+            VStack(alignment: .leading, spacing: 18) {
+                HStack(spacing: 8) {
+                    Text("Open menu shortcut")
+                        .font(.headline)
+
                     Spacer()
 
-                    modifierButton("⌃", mask: UInt32(controlKey))
-                    modifierButton("⌥", mask: UInt32(optionKey))
-                    modifierButton("⇧", mask: UInt32(shiftKey))
-                    modifierButton("⌘", mask: UInt32(cmdKey))
+                    modifierButton("⌃", name: "Control", mask: UInt32(controlKey))
+                    modifierButton("⌥", name: "Option", mask: UInt32(optionKey))
+                    modifierButton("⇧", name: "Shift", mask: UInt32(shiftKey))
+                    modifierButton("⌘", name: "Command", mask: UInt32(cmdKey))
 
                     Picker("Key", selection: keyCode) {
                         ForEach(Shortcut.availableKeys) { key in
@@ -22,26 +79,54 @@ struct SettingsView: View {
                         }
                     }
                     .labelsHidden()
-                    .frame(width: 80)
+                    .frame(width: 72)
                 }
 
-                Button("Use Default Shortcut") {
-                    model.resetShortcut()
+                Divider()
+
+                Text("Use this shortcut from anywhere to open the AnyIpsum menu.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+
+                HStack {
+                    Spacer()
+                    Button("Use Default Shortcut") {
+                        model.resetShortcut()
+                    }
+                    .buttonStyle(.link)
                 }
 
                 if let shortcutError = model.shortcutError {
-                    Label(shortcutError, systemImage: "exclamationmark.triangle")
+                    Label(shortcutError, systemImage: "exclamationmark.triangle.fill")
+                        .font(.callout)
                         .foregroundStyle(.red)
                 }
             }
+            .padding(20)
+            .background {
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(Color.accentColor.opacity(0.10))
+            }
 
-            Section {
-                Link("Visit AnyIpsum on GitHub", destination: URL(string: "https://github.com/jlowgren/AnyIpsum")!)
+            Spacer()
+
+            HStack(spacing: 8) {
+                Spacer()
+                Text("Made by Joacim de la Motte")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                Image(nsImage: NSApp.applicationIconImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 28, height: 28)
+                    .accessibilityHidden(true)
             }
         }
-        .formStyle(.grouped)
-        .frame(width: 480)
-        .padding()
+        .padding(36)
+    }
+
+    private var appVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
     }
 
     private var keyCode: Binding<UInt32> {
@@ -60,26 +145,40 @@ struct SettingsView: View {
         )
     }
 
-    private func modifierButton(_ symbol: String, mask: UInt32) -> some View {
-        Toggle(symbol, isOn: Binding(
-            get: { model.shortcut.modifiers & mask != 0 },
-            set: { enabled in
-                var modifiers = model.shortcut.modifiers
-                if enabled {
-                    modifiers |= mask
-                } else {
-                    modifiers &= ~mask
-                }
+    private func modifierButton(_ symbol: String, name: String, mask: UInt32) -> some View {
+        let isEnabled = model.shortcut.modifiers & mask != 0
 
-                guard modifiers != 0 else { return }
-                model.updateShortcut(Shortcut(
-                    keyCode: model.shortcut.keyCode,
-                    modifiers: modifiers,
-                    keyName: model.shortcut.keyName
-                ))
+        return Button {
+            var modifiers = model.shortcut.modifiers
+            if isEnabled {
+                modifiers &= ~mask
+            } else {
+                modifiers |= mask
             }
-        ))
-        .toggleStyle(.button)
-        .help(symbol + " modifier")
+
+            guard modifiers != 0 else { return }
+            model.updateShortcut(Shortcut(
+                keyCode: model.shortcut.keyCode,
+                modifiers: modifiers,
+                keyName: model.shortcut.keyName
+            ))
+        } label: {
+            Text(symbol)
+                .font(.system(size: 18, weight: .medium))
+                .frame(width: 30, height: 28)
+                .background {
+                    RoundedRectangle(cornerRadius: 7, style: .continuous)
+                        .fill(isEnabled ? Color.accentColor : Color(nsColor: .controlBackgroundColor))
+                }
+                .foregroundStyle(isEnabled ? Color.white : Color.primary)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 7, style: .continuous)
+                        .strokeBorder(Color.primary.opacity(isEnabled ? 0 : 0.12))
+                }
+        }
+        .buttonStyle(.plain)
+        .help("\(name) modifier")
+        .accessibilityLabel(name)
+        .accessibilityValue(isEnabled ? "On" : "Off")
     }
 }
