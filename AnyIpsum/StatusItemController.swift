@@ -16,6 +16,10 @@ final class StatusItemController: NSObject {
         statusItem.menu = makeMenu()
     }
 
+    func refreshMenu() {
+        statusItem.menu = makeMenu()
+    }
+
     func openMenu() {
         // Let the current event and layout pass finish before opening the menu.
         DispatchQueue.main.async { [weak self] in
@@ -26,16 +30,22 @@ final class StatusItemController: NSObject {
     private func makeMenu() -> NSMenu {
         let menu = NSMenu()
 
-        for (index, variation) in model.variations.enumerated() {
-            let item = NSMenuItem(
-                title: variation.name,
-                action: #selector(copyVariation(_:)),
-                keyEquivalent: index < 9 ? "\(index + 1)" : ""
-            )
-            item.target = self
-            item.tag = index
-            item.keyEquivalentModifierMask = []
-            menu.addItem(item)
+        if model.variations.isEmpty {
+            let emptyItem = NSMenuItem(title: "No variations available", action: nil, keyEquivalent: "")
+            emptyItem.isEnabled = false
+            menu.addItem(emptyItem)
+        } else {
+            for (index, variation) in model.variations.enumerated() {
+                let item = NSMenuItem(
+                    title: variation.name,
+                    action: #selector(copyVariation(_:)),
+                    keyEquivalent: index < 9 ? "\(index + 1)" : ""
+                )
+                item.target = self
+                item.tag = index
+                item.keyEquivalentModifierMask = []
+                menu.addItem(item)
+            }
         }
 
         menu.addItem(.separator())
