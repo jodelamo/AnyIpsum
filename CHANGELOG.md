@@ -1,3 +1,9 @@
+## [0.8.1](https://github.com/jodelamo/AnyIpsum/compare/v0.8.0...v0.8.1) (2026-09-13)
+
+### Bug Fixes
+
+* prevent adjacent duplicate words ([#16](https://github.com/jodelamo/AnyIpsum/issues/16)) ([7562b7a](https://github.com/jodelamo/AnyIpsum/commit/7562b7ad2b1e2fac81da8ebb3fbc6046fd18d157))
+
 ## [0.8.0](https://github.com/jodelamo/AnyIpsum/compare/v0.7.1...v0.8.0) (2026-09-13)
 
 ### Features
