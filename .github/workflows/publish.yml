@@ -67,3 +67,50 @@ jobs:
             dist/AnyIpsum-*.zip \
             dist/SHA256SUMS \
             --clobber
+
+      - name: Check out Homebrew tap
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: jodelamo/homebrew-anyipsum
+          ref: main
+          path: ${{ runner.temp }}/homebrew-anyipsum
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+
+      - name: Update Homebrew cask
+        env:
+          TAP_PATH: ${{ runner.temp }}/homebrew-anyipsum
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          dmg_path="dist/AnyIpsum-${VERSION}.dmg"
+          cask_path="${TAP_PATH}/Casks/anyipsum.rb"
+          checksum="$(shasum -a 256 "$dmg_path")"
+          checksum="${checksum%% *}"
+
+          VERSION="$VERSION" SHA256="$checksum" CASK_PATH="$cask_path" ruby <<'RUBY'
+          path = ENV.fetch("CASK_PATH")
+          contents = File.read(path)
+          version = ENV.fetch("VERSION")
+          sha256 = ENV.fetch("SHA256")
+
+          unless contents.sub!(/^  version "[^"]+"$/, "  version \"#{version}\"")
+            abort "Could not update version in #{path}"
+          end
+
+          unless contents.sub!(/^  sha256 "[^"]+"$/, "  sha256 \"#{sha256}\"")
+            abort "Could not update sha256 in #{path}"
+          end
+
+          File.write(path, contents)
+          RUBY
+
+          cd "$TAP_PATH"
+          if git diff --quiet -- Casks/anyipsum.rb; then
+            echo "Homebrew cask is already up to date"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Casks/anyipsum.rb
+          git commit -m "chore: update AnyIpsum ${VERSION}"
+          git push origin HEAD:main
