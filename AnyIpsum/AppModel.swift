@@ -8,13 +8,17 @@ final class AppModel {
     private(set) var shortcut: Shortcut
     private(set) var shortcutError: String?
     private(set) var variationError: String?
+    private(set) var launchesAtLogin: Bool
+    private(set) var launchAtLoginError: String?
 
     @ObservationIgnored private var shortcutManager: ShortcutManager?
     @ObservationIgnored private var statusItemController: StatusItemController?
+    @ObservationIgnored private let launchAtLoginManager = LaunchAtLoginManager()
 
     init() {
         variations = (try? VariationStore.load()) ?? []
         shortcut = ShortcutManager.loadShortcut()
+        launchesAtLogin = launchAtLoginManager.isEnabled
     }
 
     func start() {
@@ -54,6 +58,19 @@ final class AppModel {
 
     func resetShortcut() {
         updateShortcut(.default)
+    }
+
+    func setLaunchesAtLogin(_ enabled: Bool) {
+        do {
+            try launchAtLoginManager.setEnabled(enabled)
+            launchesAtLogin = launchAtLoginManager.isEnabled
+            launchAtLoginError = launchAtLoginManager.requiresApproval
+                ? "Allow AnyIpsum in System Settings to launch it automatically."
+                : nil
+        } catch {
+            launchesAtLogin = launchAtLoginManager.isEnabled
+            launchAtLoginError = error.localizedDescription
+        }
     }
 
     func copy(_ variation: Variation) {
