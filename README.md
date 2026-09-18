@@ -20,7 +20,12 @@ macOS Sonoma 14.0 or later
 
 ## Install
 
-Download the latest disk image from [here](https://github.com/jodelamo/AnyIpsum/releases/latest).
+```sh
+brew tap jodelamo/anyipsum
+brew install --cask jodelamo/anyipsum/anyipsum
+```
+
+Or download the latest disk image from [here](https://github.com/jodelamo/AnyIpsum/releases/latest).
 
 ## Example
 
