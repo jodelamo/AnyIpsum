@@ -8,4 +8,3 @@
 - Published macOS artifacts are intentionally unsigned and unnotarized.
 - Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages.
 - Use `.github/pull_request_template.md` for every pull request and complete each section before creating or updating it.
-- Never create or update a pull request unless the user explicitly requests it.
