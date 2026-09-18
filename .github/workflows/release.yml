@@ -1,11 +1,6 @@
 name: Release
 
 on:
-  workflow_run:
-    workflows:
-      - Build
-    types:
-      - completed
   workflow_dispatch:
     inputs:
       dry_run:
@@ -23,18 +18,14 @@ concurrency:
 
 jobs:
   semantic-release:
-    if: >-
-      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
-      (github.event.workflow_run.conclusion == 'success' &&
-       github.event.workflow_run.event == 'push' &&
-       github.event.workflow_run.head_branch == 'main')
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: ${{ github.sha }}
           token: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
 
       - name: Set up Node.js
