@@ -9,6 +9,21 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             Form {
+                Section("General") {
+                    Toggle(
+                        "Launch at login",
+                        isOn: Binding(
+                            get: { model.launchesAtLogin },
+                            set: model.setLaunchesAtLogin
+                        )
+                    )
+
+                    if let launchAtLoginError = model.launchAtLoginError {
+                        Label(launchAtLoginError, systemImage: "exclamationmark.triangle")
+                            .foregroundStyle(.red)
+                    }
+                }
+
                 Section("Keyboard Shortcut") {
                     HStack {
                         Text("Open menu")
