@@ -357,7 +357,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AnyIpsum/Info.plist;
 				SWIFT_VERSION = 5.0;
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jorum.AnyIpsum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -372,7 +372,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = AnyIpsum/Info.plist;
 				SWIFT_VERSION = 5.0;
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jorum.AnyIpsum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

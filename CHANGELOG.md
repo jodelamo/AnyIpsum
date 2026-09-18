@@ -1,3 +1,9 @@
+## [0.9.1](https://github.com/jodelamo/AnyIpsum/compare/v0.9.0...v0.9.1) (2026-09-18)
+
+### Bug Fixes
+
+* split words on punctuation ([#24](https://github.com/jodelamo/AnyIpsum/issues/24)) ([5bcbd13](https://github.com/jodelamo/AnyIpsum/commit/5bcbd130c226370f41669f5103285457de592350))
+
 ## [0.9.0](https://github.com/jodelamo/AnyIpsum/compare/v0.8.3...v0.9.0) (2026-09-13)
 
 ### Features
