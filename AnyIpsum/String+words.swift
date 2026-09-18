@@ -2,9 +2,7 @@ import Foundation
 
 extension String {
     var words: [String] {
-        components(separatedBy: .punctuationCharacters)
-            .joined(separator: "")
-            .split(whereSeparator: { $0.isWhitespace })
+        split { $0.isWhitespace || $0.isPunctuation }
             .map(String.init)
     }
 }

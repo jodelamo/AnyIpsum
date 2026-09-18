@@ -41,6 +41,25 @@ final class ParagraphGeneratorTests: XCTestCase {
     }
 }
 
+final class StringExtensionTests: XCTestCase {
+    func testWordsSplitPunctuationWithoutMergingWords() {
+        XCTAssertEqual("hello,world".words, ["hello", "world"])
+    }
+
+    func testWordsSplitPunctuationAndWhitespace() {
+        XCTAssertEqual("hello...\nworld".words, ["hello", "world"])
+    }
+
+    func testWordsReturnsEmptyForWhitespaceAndPunctuation() {
+        XCTAssertEqual("!?\n  \t".words, [])
+    }
+
+    func testCapitalizeFirstLetterHandlesUnicodeAndEmptyStrings() {
+        XCTAssertEqual("éclair".capitalizeFirstLetter(), "Éclair")
+        XCTAssertEqual("".capitalizeFirstLetter(), "")
+    }
+}
+
 private struct FixedRandomNumberGenerator: RandomNumberGenerator {
     mutating func next() -> UInt64 { 0 }
 }
