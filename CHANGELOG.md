@@ -1,3 +1,9 @@
+## [0.10.0](https://github.com/jodelamo/AnyIpsum/compare/v0.9.1...v0.10.0) (2026-09-18)
+
+### Features
+
+* add launch at login setting ([#27](https://github.com/jodelamo/AnyIpsum/issues/27)) ([8bbae5f](https://github.com/jodelamo/AnyIpsum/commit/8bbae5ff93bcf313affe068c9baa641fbf0c834a))
+
 ## [0.9.1](https://github.com/jodelamo/AnyIpsum/compare/v0.9.0...v0.9.1) (2026-09-18)
 
 ### Bug Fixes
