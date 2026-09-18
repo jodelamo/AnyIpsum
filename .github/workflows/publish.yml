@@ -73,16 +73,16 @@ jobs:
         with:
           repository: jodelamo/homebrew-anyipsum
           ref: main
-          path: ${{ runner.temp }}/homebrew-anyipsum
+          path: homebrew-anyipsum
           token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
 
       - name: Update Homebrew cask
         env:
-          TAP_PATH: ${{ runner.temp }}/homebrew-anyipsum
           VERSION: ${{ steps.release.outputs.version }}
         run: |
+          tap_path="$GITHUB_WORKSPACE/homebrew-anyipsum"
           dmg_path="dist/AnyIpsum-${VERSION}.dmg"
-          cask_path="${TAP_PATH}/Casks/anyipsum.rb"
+          cask_path="${tap_path}/Casks/anyipsum.rb"
           checksum="$(shasum -a 256 "$dmg_path")"
           checksum="${checksum%% *}"
 
@@ -103,7 +103,7 @@ jobs:
           File.write(path, contents)
           RUBY
 
-          cd "$TAP_PATH"
+          cd "$tap_path"
           if git diff --quiet -- Casks/anyipsum.rb; then
             echo "Homebrew cask is already up to date"
             exit 0
