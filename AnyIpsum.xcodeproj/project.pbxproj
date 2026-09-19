@@ -203,8 +203,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
 			requirement = {
-				kind = exactVersion;
-				version = 2.4.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

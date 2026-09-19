@@ -15,11 +15,11 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  XCODE_VERSION: "16.4"
+  XCODE_VERSION: "27.0"
 
 jobs:
   publish:
-    runs-on: macos-15
+    runs-on: xcode-27
     steps:
       - name: Validate release tag
         id: release

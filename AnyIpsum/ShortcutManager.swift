@@ -4,7 +4,7 @@ import KeyboardShortcuts
 extension KeyboardShortcuts.Name {
     static let openMenu = Self(
         "openMenu",
-        default: .init(.a, modifiers: [.control, .command])
+        initial: .init(.a, modifiers: [.control, .command])
     )
 }
 
