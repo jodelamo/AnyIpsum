@@ -1,3 +1,10 @@
+## [0.12.0](https://github.com/jodelamo/AnyIpsum/compare/v0.11.0...v0.12.0) (2026-09-19)
+
+### Features
+
+* add Pirate Ipsum variation ([#30](https://github.com/jodelamo/AnyIpsum/issues/30)) ([dc7fc48](https://github.com/jodelamo/AnyIpsum/commit/dc7fc48e83d830b82915ed7a8c5ca80c0c0179c5))
+* improve paragraph generation ([#31](https://github.com/jodelamo/AnyIpsum/issues/31)) ([62c891a](https://github.com/jodelamo/AnyIpsum/commit/62c891aa8b4e1cd917868f73844955e15d836bd8))
+
 ## [0.11.0](https://github.com/jodelamo/AnyIpsum/compare/v0.10.0...v0.11.0) (2026-09-19)
 
 ### Features
