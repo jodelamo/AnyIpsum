@@ -39,6 +39,33 @@ final class ParagraphGeneratorTests: XCTestCase {
 
         XCTAssertFalse(zip(words, words.dropFirst()).contains { $0 == $1 })
     }
+
+    func testGeneratorPreservesSourcePhrases() {
+        var random = FixedRandomNumberGenerator()
+        let paragraph = ParagraphGenerator.generate(
+            from: "alpha beta gamma delta",
+            sentenceCount: 1...1,
+            wordsPerSentence: 3...3,
+            using: &random
+        )
+
+        XCTAssertEqual(paragraph, "Alpha beta gamma.")
+    }
+
+    func testGeneratorAvoidsRecentWordsWhenAlternativesExist() {
+        var random = FixedRandomNumberGenerator()
+        let paragraph = ParagraphGenerator.generate(
+            from: "alpha beta gamma delta epsilon zeta",
+            sentenceCount: 1...1,
+            wordsPerSentence: 6...6,
+            using: &random
+        )
+        let words = paragraph
+            .split { $0 == " " || $0 == "." }
+            .map(String.init)
+
+        XCTAssertEqual(Set(words.map { $0.lowercased() }).count, 6)
+    }
 }
 
 final class StringExtensionTests: XCTestCase {
