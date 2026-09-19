@@ -1,3 +1,9 @@
+## [0.11.0](https://github.com/jodelamo/AnyIpsum/compare/v0.10.0...v0.11.0) (2026-09-19)
+
+### Features
+
+* use KeyboardShortcuts for global shortcuts ([#29](https://github.com/jodelamo/AnyIpsum/issues/29)) ([cc847d1](https://github.com/jodelamo/AnyIpsum/commit/cc847d1aa069ea09b631fc95a2d7347118fceabf))
+
 ## [0.10.0](https://github.com/jodelamo/AnyIpsum/compare/v0.9.1...v0.10.0) (2026-09-18)
 
 ### Features
