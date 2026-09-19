@@ -183,7 +183,15 @@ enum VariationStore {
                 guard !trimmedName.isEmpty, !trimmedWords.isEmpty else { return nil }
                 return Variation(name: trimmedName, words: trimmedWords)
             }
-            .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+            .sorted {
+                let firstIsLorem = normalizedName($0.name) == "lorem ipsum"
+                let secondIsLorem = normalizedName($1.name) == "lorem ipsum"
+                if firstIsLorem != secondIsLorem {
+                    return firstIsLorem
+                }
+
+                return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+            }
     }
 
     private static func applyOrder(to variations: [Variation], order: [String]) -> [Variation] {
