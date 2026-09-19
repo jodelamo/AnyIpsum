@@ -1,12 +1,11 @@
 import AppKit
+import KeyboardShortcuts
 import Observation
 
 @MainActor
 @Observable
 final class AppModel {
     private(set) var variations: [Variation]
-    private(set) var shortcut: Shortcut
-    private(set) var shortcutError: String?
     private(set) var variationError: String?
     private(set) var launchesAtLogin: Bool
     private(set) var launchAtLoginError: String?
@@ -17,7 +16,7 @@ final class AppModel {
 
     init() {
         variations = (try? VariationStore.load()) ?? []
-        shortcut = ShortcutManager.loadShortcut()
+        ShortcutManager.migrateLegacyShortcut()
         launchesAtLogin = launchAtLoginManager.isEnabled
     }
 
@@ -31,33 +30,10 @@ final class AppModel {
             }
         }
         shortcutManager = manager
-        do {
-            try manager.start(with: shortcut)
-        } catch let error as ShortcutManagerError where shouldRestoreDefault(after: error) {
-            restoreDefaultShortcut(after: error, using: manager)
-        } catch {
-            shortcutError = error.localizedDescription
-        }
-    }
-
-    func updateShortcut(_ newShortcut: Shortcut) {
-        guard let shortcutManager else {
-            shortcutError = "The global shortcut handler is unavailable."
-            return
-        }
-
-        do {
-            try shortcutManager.update(newShortcut)
-            shortcut = newShortcut
-            ShortcutManager.saveShortcut(newShortcut)
-            shortcutError = nil
-        } catch {
-            shortcutError = error.localizedDescription
-        }
     }
 
     func resetShortcut() {
-        updateShortcut(.default)
+        KeyboardShortcuts.reset(.openMenu)
     }
 
     func setLaunchesAtLogin(_ enabled: Bool) {
@@ -131,26 +107,4 @@ final class AppModel {
         }
     }
 
-    private func restoreDefaultShortcut(after error: ShortcutManagerError, using manager: ShortcutManager) {
-        guard shortcut != .default else {
-            shortcutError = error.localizedDescription
-            return
-        }
-
-        do {
-            try manager.update(.default)
-            shortcut = .default
-            ShortcutManager.saveShortcut(.default)
-            shortcutError = "The saved shortcut was unavailable, so the default was restored."
-        } catch {
-            shortcutError = error.localizedDescription
-        }
-    }
-
-    private func shouldRestoreDefault(after error: ShortcutManagerError) -> Bool {
-        if case .hotKeyRegistrationFailed = error {
-            return shortcut != .default
-        }
-        return false
-    }
 }

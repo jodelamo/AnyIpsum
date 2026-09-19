@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A100000E0000000000000001 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = A10000210000000000000001 /* KeyboardShortcuts */; };
 		A10000010000000000000001 /* AnyIpsumApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000110000000000000001 /* AnyIpsumApp.swift */; };
 		A10000020000000000000001 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000120000000000000001 /* AppModel.swift */; };
 		A10000030000000000000001 /* Variation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000130000000000000001 /* Variation.swift */; };
@@ -58,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A100000E0000000000000001 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +135,9 @@
 			);
 			dependencies = (
 			);
+			packageProductDependencies = (
+				A10000210000000000000001 /* KeyboardShortcuts */,
+			);
 			name = AnyIpsum;
 			productName = AnyIpsum;
 			productReference = 462FA57F1D30C1AF0099FD9E /* AnyIpsum.app */;
@@ -180,6 +185,9 @@
 				Base,
 			);
 			mainGroup = 462FA5761D30C1AF0099FD9E;
+			packageReferences = (
+				A10000220000000000000001 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
 			productRefGroup = 462FA5801D30C1AF0099FD9E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -189,6 +197,25 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A10000220000000000000001 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A10000210000000000000001 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A10000220000000000000001 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin PBXTargetDependency section */
 		A10000500000000000000001 /* AnyIpsum target dependency */ = {

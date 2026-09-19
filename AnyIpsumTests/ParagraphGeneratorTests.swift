@@ -64,40 +64,6 @@ private struct FixedRandomNumberGenerator: RandomNumberGenerator {
     mutating func next() -> UInt64 { 0 }
 }
 
-final class ShortcutManagerTests: XCTestCase {
-    func testFailedUpdateRestoresPreviousShortcut() throws {
-        let original = Shortcut.default
-        let replacement = Shortcut(keyCode: 11, modifiers: original.modifiers, keyName: "B")
-        var registrationAttempts: [Shortcut] = []
-        var unregistrationCount = 0
-
-        let manager = ShortcutManager(
-            action: {},
-            registerHotKey: { shortcut, reference in
-                registrationAttempts.append(shortcut)
-                if shortcut == replacement {
-                    return OSStatus(-9878)
-                }
-                reference.pointee = OpaquePointer(bitPattern: registrationAttempts.count)
-                return noErr
-            },
-            unregisterHotKey: { _ in
-                unregistrationCount += 1
-                return noErr
-            }
-        )
-
-        try manager.update(original)
-        XCTAssertThrowsError(try manager.update(replacement))
-        XCTAssertEqual(registrationAttempts, [original, replacement, original])
-        XCTAssertEqual(unregistrationCount, 1)
-
-        try manager.update(original)
-        XCTAssertEqual(registrationAttempts, [original, replacement, original])
-        XCTAssertEqual(unregistrationCount, 1)
-    }
-}
-
 final class VariationStoreTests: XCTestCase {
     private var temporaryURLs: [URL] = []
 
@@ -138,6 +104,20 @@ final class VariationStoreTests: XCTestCase {
         XCTAssertEqual(
             try VariationStore.load(bundle: bundle, storageURL: storageURL),
             [custom]
+        )
+    }
+
+    func testLoremIpsumIsTheFirstDefaultVariation() throws {
+        let bundle = try makeBundle(with: [
+            "Bacon Ipsum": "bacon words",
+            "Cupcake Ipsum": "cupcake words",
+            "Lorem Ipsum": "lorem words"
+        ])
+        let storageURL = makeTemporaryURL().appendingPathComponent("Variations.json")
+
+        XCTAssertEqual(
+            try VariationStore.load(bundle: bundle, storageURL: storageURL).map(\.name),
+            ["Lorem Ipsum", "Bacon Ipsum", "Cupcake Ipsum"]
         )
     }
 
