@@ -110,14 +110,16 @@ final class VariationStoreTests: XCTestCase {
     func testLoremIpsumIsTheFirstDefaultVariation() throws {
         let bundle = try makeBundle(with: [
             "Bacon Ipsum": "bacon words",
+            "Cat Ipsum": "cat words",
             "Cupcake Ipsum": "cupcake words",
-            "Lorem Ipsum": "lorem words"
+            "Lorem Ipsum": "lorem words",
+            "Pirate Ipsum": "pirate words"
         ])
         let storageURL = makeTemporaryURL().appendingPathComponent("Variations.json")
 
         XCTAssertEqual(
             try VariationStore.load(bundle: bundle, storageURL: storageURL).map(\.name),
-            ["Lorem Ipsum", "Bacon Ipsum", "Cupcake Ipsum"]
+            ["Lorem Ipsum", "Bacon Ipsum", "Cat Ipsum", "Cupcake Ipsum", "Pirate Ipsum"]
         )
     }
 
