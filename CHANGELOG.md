@@ -1,3 +1,13 @@
+## [0.14.0](https://github.com/jodelamo/AnyIpsum/compare/v0.13.0...v0.14.0) (2026-09-20)
+
+### Features
+
+* configure paragraph length ([#34](https://github.com/jodelamo/AnyIpsum/issues/34)) ([85d3ee1](https://github.com/jodelamo/AnyIpsum/commit/85d3ee1c1f05052216f94391cc55adb02c9a2882))
+
+### Bug Fixes
+
+* align paragraph setting fields ([#35](https://github.com/jodelamo/AnyIpsum/issues/35)) ([a1f0ca0](https://github.com/jodelamo/AnyIpsum/commit/a1f0ca06a00e1a3bdb8b8e82df4aa150a0998fe2))
+
 ## [0.13.0](https://github.com/jodelamo/AnyIpsum/compare/v0.12.0...v0.13.0) (2026-09-20)
 
 ### Features
