@@ -13,6 +13,7 @@ final class AppModel {
     @ObservationIgnored private var shortcutManager: ShortcutManager?
     @ObservationIgnored private var statusItemController: StatusItemController?
     @ObservationIgnored private let launchAtLoginManager = LaunchAtLoginManager()
+    @ObservationIgnored private let copyNotificationManager = CopyNotificationManager()
 
     init() {
         variations = (try? VariationStore.load()) ?? []
@@ -51,7 +52,9 @@ final class AppModel {
 
     func copy(_ variation: Variation) {
         let paragraph = ParagraphGenerator.generate(from: variation.words)
-        PasteboardWriter.copy(paragraph)
+        guard PasteboardWriter.copy(paragraph) else { return }
+
+        copyNotificationManager.notifyCopied(wordCount: paragraph.words.count)
     }
 
     func importVariation(from url: URL, named name: String) {

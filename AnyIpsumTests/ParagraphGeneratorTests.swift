@@ -87,6 +87,16 @@ final class StringExtensionTests: XCTestCase {
     }
 }
 
+final class CopyNotificationManagerTests: XCTestCase {
+    func testMessageReportsPluralWordCount() {
+        XCTAssertEqual(CopyNotificationManager.message(wordCount: 42), "Copied 42 words")
+    }
+
+    func testMessageUsesSingularForOneWord() {
+        XCTAssertEqual(CopyNotificationManager.message(wordCount: 1), "Copied 1 word")
+    }
+}
+
 private struct FixedRandomNumberGenerator: RandomNumberGenerator {
     mutating func next() -> UInt64 { 0 }
 }
