@@ -25,7 +25,9 @@ struct SettingsView: View {
                 }
 
                 Section("Paragraph") {
-                    LabeledContent("Sentences") {
+                    HStack {
+                        Text("Sentences")
+                        Spacer()
                         paragraphRangeFields(
                             minimum: Binding(
                                 get: { model.sentenceCount.lowerBound },
@@ -39,7 +41,9 @@ struct SettingsView: View {
                         )
                     }
 
-                    LabeledContent("Words per sentence") {
+                    HStack {
+                        Text("Words per sentence")
+                        Spacer()
                         paragraphRangeFields(
                             minimum: Binding(
                                 get: { model.wordsPerSentence.lowerBound },
@@ -156,21 +160,27 @@ struct SettingsView: View {
         limits: ClosedRange<Int>
     ) -> some View {
         HStack(spacing: 12) {
-            Text("Min")
-                .foregroundStyle(.secondary)
-            paragraphNumberField(
-                "Minimum",
-                value: minimum,
-                in: limits.lowerBound...maximum.wrappedValue
-            )
+            HStack(spacing: 0) {
+                Text("Min")
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: true, vertical: false)
+                paragraphNumberField(
+                    "Minimum",
+                    value: minimum,
+                    in: limits.lowerBound...maximum.wrappedValue
+                )
+            }
 
-            Text("Max")
-                .foregroundStyle(.secondary)
-            paragraphNumberField(
-                "Maximum",
-                value: maximum,
-                in: minimum.wrappedValue...limits.upperBound
-            )
+            HStack(spacing: 0) {
+                Text("Max")
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: true, vertical: false)
+                paragraphNumberField(
+                    "Maximum",
+                    value: maximum,
+                    in: minimum.wrappedValue...limits.upperBound
+                )
+            }
         }
     }
 
