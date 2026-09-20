@@ -68,6 +68,52 @@ final class ParagraphGeneratorTests: XCTestCase {
     }
 }
 
+final class ParagraphConfigurationTests: XCTestCase {
+    private var defaults: UserDefaults!
+    private var suiteName: String!
+
+    override func setUp() {
+        super.setUp()
+        suiteName = UUID().uuidString
+        defaults = UserDefaults(suiteName: suiteName)
+    }
+
+    override func tearDown() {
+        defaults.removePersistentDomain(forName: suiteName)
+        defaults = nil
+        suiteName = nil
+        super.tearDown()
+    }
+
+    func testUsesExistingGenerationDefaultsWhenNoPreferencesAreSaved() {
+        let configuration = ParagraphConfiguration(defaults: defaults)
+
+        XCTAssertEqual(configuration.sentenceCount, 5...7)
+        XCTAssertEqual(configuration.wordsPerSentence, 4...8)
+    }
+
+    func testPersistsConfiguredRanges() {
+        let configuration = ParagraphConfiguration(
+            sentenceCount: 2...4,
+            wordsPerSentence: 10...12
+        )
+
+        configuration.save(to: defaults)
+
+        XCTAssertEqual(ParagraphConfiguration(defaults: defaults), configuration)
+    }
+
+    func testClampsConfiguredRangesToSupportedLimits() {
+        let configuration = ParagraphConfiguration(
+            sentenceCount: 0...200,
+            wordsPerSentence: 0...200
+        )
+
+        XCTAssertEqual(configuration.sentenceCount, 1...100)
+        XCTAssertEqual(configuration.wordsPerSentence, 1...100)
+    }
+}
+
 final class StringExtensionTests: XCTestCase {
     func testWordsSplitPunctuationWithoutMergingWords() {
         XCTAssertEqual("hello,world".words, ["hello", "world"])

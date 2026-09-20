@@ -9,14 +9,22 @@ final class AppModel {
     private(set) var variationError: String?
     private(set) var launchesAtLogin: Bool
     private(set) var launchAtLoginError: String?
+    private(set) var sentenceCount: ClosedRange<Int>
+    private(set) var wordsPerSentence: ClosedRange<Int>
 
     @ObservationIgnored private var shortcutManager: ShortcutManager?
     @ObservationIgnored private var statusItemController: StatusItemController?
     @ObservationIgnored private let launchAtLoginManager = LaunchAtLoginManager()
     @ObservationIgnored private let copyNotificationManager = CopyNotificationManager()
+    @ObservationIgnored private let defaults: UserDefaults
 
-    init() {
+    init(defaults: UserDefaults = .standard) {
+        let paragraphConfiguration = ParagraphConfiguration(defaults: defaults)
+
+        self.defaults = defaults
         variations = (try? VariationStore.load()) ?? []
+        sentenceCount = paragraphConfiguration.sentenceCount
+        wordsPerSentence = paragraphConfiguration.wordsPerSentence
         ShortcutManager.migrateLegacyShortcut()
         launchesAtLogin = launchAtLoginManager.isEnabled
     }
@@ -50,8 +58,50 @@ final class AppModel {
         }
     }
 
+    func setMinimumSentenceCount(_ count: Int) {
+        let minimum = min(
+            max(count, ParagraphConfiguration.sentenceCountLimits.lowerBound),
+            sentenceCount.upperBound
+        )
+        sentenceCount = minimum...sentenceCount.upperBound
+        saveParagraphConfiguration()
+    }
+
+    func setMaximumSentenceCount(_ count: Int) {
+        let maximum = min(
+            max(count, sentenceCount.lowerBound),
+            ParagraphConfiguration.sentenceCountLimits.upperBound
+        )
+        sentenceCount = sentenceCount.lowerBound...maximum
+        saveParagraphConfiguration()
+    }
+
+    func setMinimumWordsPerSentence(_ count: Int) {
+        let minimum = min(
+            max(count, ParagraphConfiguration.wordsPerSentenceLimits.lowerBound),
+            wordsPerSentence.upperBound
+        )
+        wordsPerSentence = minimum...wordsPerSentence.upperBound
+        saveParagraphConfiguration()
+    }
+
+    func setMaximumWordsPerSentence(_ count: Int) {
+        let maximum = min(
+            max(count, wordsPerSentence.lowerBound),
+            ParagraphConfiguration.wordsPerSentenceLimits.upperBound
+        )
+        wordsPerSentence = wordsPerSentence.lowerBound...maximum
+        saveParagraphConfiguration()
+    }
+
     func copy(_ variation: Variation) {
-        let paragraph = ParagraphGenerator.generate(from: variation.words)
+        var random = SystemRandomNumberGenerator()
+        let paragraph = ParagraphGenerator.generate(
+            from: variation.words,
+            sentenceCount: sentenceCount,
+            wordsPerSentence: wordsPerSentence,
+            using: &random
+        )
         guard PasteboardWriter.copy(paragraph) else { return }
 
         copyNotificationManager.notifyCopied(wordCount: paragraph.words.count)
@@ -110,4 +160,10 @@ final class AppModel {
         }
     }
 
+    private func saveParagraphConfiguration() {
+        ParagraphConfiguration(
+            sentenceCount: sentenceCount,
+            wordsPerSentence: wordsPerSentence
+        ).save(to: defaults)
+    }
 }

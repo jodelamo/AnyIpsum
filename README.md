@@ -5,7 +5,7 @@
 ## Capabilities
 
 - Choose from built-in lorem ipsum variations in the menu bar.
-- Generate randomized paragraphs with 5–7 sentences and 4–8 words per sentence.
+- Configure the sentence count and words per sentence for randomized paragraphs.
 - Copy generated paragraphs directly to the pasteboard.
 - Open the menu with a configurable global keyboard shortcut.
 - Import custom text variations up to 10 KB.

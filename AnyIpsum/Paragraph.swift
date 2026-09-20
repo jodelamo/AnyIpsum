@@ -1,5 +1,80 @@
 import Foundation
 
+struct ParagraphConfiguration: Equatable {
+    static let sentenceCountLimits = 1...100
+    static let wordsPerSentenceLimits = 1...100
+    static let defaultSentenceCount = 5...7
+    static let defaultWordsPerSentence = 4...8
+
+    private static let minimumSentenceCountKey = "minimumSentenceCount"
+    private static let maximumSentenceCountKey = "maximumSentenceCount"
+    private static let minimumWordsPerSentenceKey = "minimumWordsPerSentence"
+    private static let maximumWordsPerSentenceKey = "maximumWordsPerSentence"
+
+    let sentenceCount: ClosedRange<Int>
+    let wordsPerSentence: ClosedRange<Int>
+
+    init(
+        sentenceCount: ClosedRange<Int> = defaultSentenceCount,
+        wordsPerSentence: ClosedRange<Int> = defaultWordsPerSentence
+    ) {
+        self.sentenceCount = Self.clamp(sentenceCount, to: Self.sentenceCountLimits)
+        self.wordsPerSentence = Self.clamp(
+            wordsPerSentence,
+            to: Self.wordsPerSentenceLimits
+        )
+    }
+
+    init(defaults: UserDefaults) {
+        self.init(
+            sentenceCount: Self.range(
+                from: defaults,
+                minimumKey: Self.minimumSentenceCountKey,
+                maximumKey: Self.maximumSentenceCountKey,
+                fallback: Self.defaultSentenceCount
+            ),
+            wordsPerSentence: Self.range(
+                from: defaults,
+                minimumKey: Self.minimumWordsPerSentenceKey,
+                maximumKey: Self.maximumWordsPerSentenceKey,
+                fallback: Self.defaultWordsPerSentence
+            )
+        )
+    }
+
+    func save(to defaults: UserDefaults) {
+        defaults.set(sentenceCount.lowerBound, forKey: Self.minimumSentenceCountKey)
+        defaults.set(sentenceCount.upperBound, forKey: Self.maximumSentenceCountKey)
+        defaults.set(wordsPerSentence.lowerBound, forKey: Self.minimumWordsPerSentenceKey)
+        defaults.set(wordsPerSentence.upperBound, forKey: Self.maximumWordsPerSentenceKey)
+    }
+
+    private static func range(
+        from defaults: UserDefaults,
+        minimumKey: String,
+        maximumKey: String,
+        fallback: ClosedRange<Int>
+    ) -> ClosedRange<Int> {
+        guard defaults.object(forKey: minimumKey) != nil,
+              defaults.object(forKey: maximumKey) != nil else {
+            return fallback
+        }
+
+        let minimum = defaults.integer(forKey: minimumKey)
+        let maximum = defaults.integer(forKey: maximumKey)
+        return minimum <= maximum ? minimum...maximum : fallback
+    }
+
+    private static func clamp(
+        _ range: ClosedRange<Int>,
+        to limits: ClosedRange<Int>
+    ) -> ClosedRange<Int> {
+        let minimum = min(max(range.lowerBound, limits.lowerBound), limits.upperBound)
+        let maximum = min(max(range.upperBound, minimum), limits.upperBound)
+        return minimum...maximum
+    }
+}
+
 enum ParagraphGenerator {
     private static let maxPhraseLength = 3
     private static let recentWordLimit = 5

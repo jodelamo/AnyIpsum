@@ -24,6 +24,36 @@ struct SettingsView: View {
                     }
                 }
 
+                Section("Paragraph") {
+                    LabeledContent("Sentences") {
+                        paragraphRangeFields(
+                            minimum: Binding(
+                                get: { model.sentenceCount.lowerBound },
+                                set: model.setMinimumSentenceCount
+                            ),
+                            maximum: Binding(
+                                get: { model.sentenceCount.upperBound },
+                                set: model.setMaximumSentenceCount
+                            ),
+                            limits: ParagraphConfiguration.sentenceCountLimits
+                        )
+                    }
+
+                    LabeledContent("Words per sentence") {
+                        paragraphRangeFields(
+                            minimum: Binding(
+                                get: { model.wordsPerSentence.lowerBound },
+                                set: model.setMinimumWordsPerSentence
+                            ),
+                            maximum: Binding(
+                                get: { model.wordsPerSentence.upperBound },
+                                set: model.setMaximumWordsPerSentence
+                            ),
+                            limits: ParagraphConfiguration.wordsPerSentenceLimits
+                        )
+                    }
+                }
+
                 Section("Keyboard Shortcut") {
                     KeyboardShortcuts.Recorder("Open menu", name: .openMenu)
 
@@ -112,12 +142,65 @@ struct SettingsView: View {
             }
             .font(.callout)
         }
-        .frame(width: 480, height: 420)
+        .frame(width: 480, height: 520)
         .padding()
     }
 
     private var appVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
+    }
+
+    private func paragraphRangeFields(
+        minimum: Binding<Int>,
+        maximum: Binding<Int>,
+        limits: ClosedRange<Int>
+    ) -> some View {
+        HStack(spacing: 12) {
+            Text("Min")
+                .foregroundStyle(.secondary)
+            paragraphNumberField(
+                "Minimum",
+                value: minimum,
+                in: limits.lowerBound...maximum.wrappedValue
+            )
+
+            Text("Max")
+                .foregroundStyle(.secondary)
+            paragraphNumberField(
+                "Maximum",
+                value: maximum,
+                in: minimum.wrappedValue...limits.upperBound
+            )
+        }
+    }
+
+    private func paragraphNumberField(
+        _ label: String,
+        value: Binding<Int>,
+        in range: ClosedRange<Int>
+    ) -> some View {
+        HStack(spacing: 2) {
+            TextField("", value: value, format: .number)
+                .textFieldStyle(.roundedBorder)
+                .multilineTextAlignment(.trailing)
+                .frame(width: 52)
+                .accessibilityLabel(label)
+                .onKeyPress(.upArrow) {
+                    value.wrappedValue = min(value.wrappedValue + 1, range.upperBound)
+                    return .handled
+                }
+                .onKeyPress(.downArrow) {
+                    value.wrappedValue = max(value.wrappedValue - 1, range.lowerBound)
+                    return .handled
+                }
+            Stepper(
+                label,
+                value: value,
+                in: range
+            )
+            .labelsHidden()
+            .controlSize(.small)
+        }
     }
 
     private func importVariation() {
