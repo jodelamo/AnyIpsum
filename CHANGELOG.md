@@ -1,3 +1,9 @@
+## [0.13.0](https://github.com/jodelamo/AnyIpsum/compare/v0.12.0...v0.13.0) (2026-09-20)
+
+### Features
+
+* add copy notification feedback ([#32](https://github.com/jodelamo/AnyIpsum/issues/32)) ([c6edac6](https://github.com/jodelamo/AnyIpsum/commit/c6edac65e9d21e758b522be443577b889f9f9bed))
+
 ## [0.12.0](https://github.com/jodelamo/AnyIpsum/compare/v0.11.0...v0.12.0) (2026-09-19)
 
 ### Features
